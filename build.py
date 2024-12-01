@@ -1,8 +1,8 @@
 # mostly identical to from https://github.com/BradyAJohnston/MolecularNodes/blob/main/build.py
 # run with 
-# Blender -b -P build.py
+# /Applications/Blender.app/Contents/MacOS/Blender -b -P build.py
 # and later with
-# blender --command extension build --split-platforms
+# /Applications/Blender.app/Contents/MacOS/Blender --command extension build --split-platforms
 
 import glob
 import os
