@@ -24,12 +24,12 @@ license = [
 copyright =[
 	"2024 Jan-Hendrik Müller",
 ]
-wheels = [
-	"./wheels/polars-1.16.0-cp39-abi3-macosx_10_12_x86_64.whl",
-	"./wheels/polars-1.16.0-cp39-abi3-macosx_11_0_arm64.whl",
-	"./wheels/polars-1.16.0-cp39-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
-	"./wheels/polars-1.16.0-cp39-abi3-win_amd64.whl",
-]
+# wheels = [
+# 	"./wheels/polars-1.16.0-cp39-abi3-macosx_10_12_x86_64.whl",
+# 	"./wheels/polars-1.16.0-cp39-abi3-macosx_11_0_arm64.whl",
+# 	"./wheels/polars-1.16.0-cp39-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+# 	"./wheels/polars-1.16.0-cp39-abi3-win_amd64.whl",
+# ]
 
 
 [permissions]
