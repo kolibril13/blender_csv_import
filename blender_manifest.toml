@@ -24,6 +24,12 @@ license = [
 copyright =[
 	"2024 Jan-Hendrik Müller",
 ]
+
+# because of this bug https://projects.blender.org/blender/blender/issues/130561 the wheels had to be renamed 
+#polars-1.16.0-cp311-abi3-macosx_11_0_arm64.whl
+#polars-1.16.0-cp39-abi3-macosx_11_0_arm64.whl
+
+
 wheels = [
 	"./wheels/polars-1.16.0-cp311-abi3-macosx_10_12_x86_64.whl",
 	"./wheels/polars-1.16.0-cp311-abi3-macosx_11_0_arm64.whl",
