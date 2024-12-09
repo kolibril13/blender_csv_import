@@ -56,7 +56,7 @@ macos_intel = Platform(pypi_suffix="macosx_10_16_x86_64", metadata="macos-x64")
 
 
 required_packages = [
-    "polars==1.16.0",
+    "polars==1.17.1",
 ]
 
 
