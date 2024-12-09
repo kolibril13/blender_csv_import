@@ -2,6 +2,22 @@
 Blender extension to add CSV files
 
 
+# Usage
+
+Go to World -> "Import CSV with Polars" -> CSV Import -> Choose the file.
+
+
+
+![alt text](image.png)
+
+And the data will show up in the speadsheet:
+
+![alt text](image-1.png)
+
+
+# Using data with Geometry Nodes:
+
+
 
 # Development instructions
 
@@ -10,7 +26,7 @@ Blender extension to add CSV files
 3. Command+Shift+P -> Blender: Build and Start
 4. Start coding with __init__.py
 
-# Build the extension:
+### Build the extension:
 
 For downloading the wheels files, run: 
 ```

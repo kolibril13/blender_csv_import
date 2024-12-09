@@ -37,7 +37,7 @@ class ImportCsvPolarsOperator(bpy.types.Operator, ImportHelper):
         elapsed_time_ms = (time.perf_counter() - start_time) * 1000
 
         # Report result with execution time
-        self.report({'INFO'}, f" 🐻‍❄️ 📥 Grrr!! Added {blender_mesh.object_name} in {elapsed_time_ms:.2f} ms")
+        self.report({'INFO'}, f" 🐻‍❄️ 📥  Added {blender_mesh.object_name} in {elapsed_time_ms:.2f} ms")
         return {'FINISHED'}
 
 # Function to add the button to the World Scene Panel
@@ -50,7 +50,7 @@ class WORLD_PT_import_csv_panel(bpy.types.Panel):
 
     def draw(self, context):
         layout = self.layout
-        layout.operator("wm.import_csv_polars_operator", text="🐻‍❄️📥 Polars Import", emboss=True)
+        layout.operator("wm.import_csv_polars_operator", text="🐻‍❄️📥 CSV Import", emboss=True)
 
 # Register the operator and the panel
 def register():
