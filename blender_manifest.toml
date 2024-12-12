@@ -58,4 +58,5 @@ paths_exclude_pattern = [
   "*generate_data/*",       # Exclude /generate_data folder
   "*__pycache__/",       # Exclude /__pycache__ folder
   ".venv/",                 # Exclude .venv folder
+  ".git/",                  # Exclude .git folder
 ]
