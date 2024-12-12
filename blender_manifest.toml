@@ -1,7 +1,7 @@
 schema_version = "1.0.0"
 
 id = "csv_importer"
-version = "0.1.0"
+version = "0.1.1"
 name = "CSV Importer"
 tagline = "import csv data to meshes in Blender"
 maintainer = "Jan-Hendrik Müller<jan-hendrik.mueller@uni-goettingen.de>"
