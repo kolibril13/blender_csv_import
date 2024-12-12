@@ -7,8 +7,9 @@ import time
 
 # Operator for the button
 class ImportCsvPolarsOperator(bpy.types.Operator, ImportHelper):
-    bl_idname = "wm.import_csv_polars_operator"
+    bl_idname = "import_scene.import_csv_polars"
     bl_label = "Import CSV (Polars)"
+    bl_options = {'PRESET', 'UNDO'}
 
     # ImportHelper mix-in class uses this
     filename_ext = ".csv"
@@ -20,13 +21,13 @@ class ImportCsvPolarsOperator(bpy.types.Operator, ImportHelper):
 
     def execute(self, context):
         CSV_FILE = self.filepath  # Use the selected file path
-        # CSV_FILE = "de.csv"
 
         # Read CSV with Polars
         df_polars = pl.read_csv(CSV_FILE)
 
         # Measure execution time
         start_time = time.perf_counter()
+        
         # Create a PolarsMesh object
         blender_mesh = PolarsMesh(dataframe=df_polars, object_name="ImportedMesh")
 
@@ -40,26 +41,18 @@ class ImportCsvPolarsOperator(bpy.types.Operator, ImportHelper):
         self.report({'INFO'}, f" 🐻‍❄️ 📥  Added {blender_mesh.object_name} in {elapsed_time_ms:.2f} ms")
         return {'FINISHED'}
 
-# Function to add the button to the World Scene Panel
-class WORLD_PT_import_csv_panel(bpy.types.Panel):
-    bl_label = "Import CSV with Polars"
-    bl_idname = "WORLD_PT_import_csv_panel"
-    bl_space_type = 'PROPERTIES'
-    bl_region_type = 'WINDOW'
-    bl_context = "world"  # This targets the World Properties tab
+# Register the operator and menu entry
+def menu_func_import(self, context):
+    self.layout.operator(ImportCsvPolarsOperator.bl_idname, text="CSV 🐻 (.csv)")
 
-    def draw(self, context):
-        layout = self.layout
-        layout.operator("wm.import_csv_polars_operator", text="🐻‍❄️📥 CSV Import", emboss=True)
-
-# Register the operator and the panel
+# Register the operator and the menu
 def register():
     bpy.utils.register_class(ImportCsvPolarsOperator)
-    bpy.utils.register_class(WORLD_PT_import_csv_panel)
+    bpy.types.TOPBAR_MT_file_import.append(menu_func_import)
 
-# Unregister the operator and the panel
+# Unregister the operator and the menu
 def unregister():
-    bpy.utils.unregister_class(WORLD_PT_import_csv_panel)
+    bpy.types.TOPBAR_MT_file_import.remove(menu_func_import)
     bpy.utils.unregister_class(ImportCsvPolarsOperator)
 
 # Initialize
