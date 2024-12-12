@@ -5,13 +5,22 @@ from bpy.props import StringProperty
 from .polars_mesh import PolarsMesh
 import time
 
-# Operator for the button
+# based on the blender docs: https://docs.blender.org/api/current/bpy.types.FileHandler.html#basic-filehandler-for-operator-that-imports-just-one-file
+# and tweaked with this prompt: https://chatgpt.com/share/675b0831-354c-8013-bae0-9bb91d527f32
+
+# Operator for the button and drag-and-drop
 class ImportCsvPolarsOperator(bpy.types.Operator, ImportHelper):
     bl_idname = "import_scene.import_csv_polars"
     bl_label = "Import CSV (Polars)"
     bl_options = {'PRESET', 'UNDO'}
 
-    # ImportHelper mix-in class uses this
+    # ImportHelper mix-in provides 'filepath' by default, but we redefine it here 
+    # to use SKIP_SAVE, allowing drag-and-drop to work properly.
+    filepath: StringProperty(
+        subtype='FILE_PATH',
+        options={'SKIP_SAVE'}
+    )
+
     filename_ext = ".csv"
     filter_glob: StringProperty(
         default="*.csv",
@@ -20,7 +29,12 @@ class ImportCsvPolarsOperator(bpy.types.Operator, ImportHelper):
     )
 
     def execute(self, context):
-        CSV_FILE = self.filepath  # Use the selected file path
+        # Ensure the filepath is a CSV file
+        if not self.filepath.lower().endswith(".csv"):
+            self.report({'WARNING'}, "Selected file is not a CSV")
+            return {'CANCELLED'}
+
+        CSV_FILE = self.filepath  # Use the selected/dropped file path
 
         # Read CSV with Polars
         df_polars = pl.read_csv(CSV_FILE)
@@ -41,20 +55,39 @@ class ImportCsvPolarsOperator(bpy.types.Operator, ImportHelper):
         self.report({'INFO'}, f" 🐻‍❄️ 📥  Added {blender_mesh.object_name} in {elapsed_time_ms:.2f} ms")
         return {'FINISHED'}
 
+    def invoke(self, context, event):
+        # If the filepath is already set (e.g. drag-and-drop), execute directly
+        if self.filepath:
+            return self.execute(context)
+        # Otherwise, show the file browser
+        context.window_manager.fileselect_add(self)
+        return {'RUNNING_MODAL'}
+
+# File Handler for drag-and-drop support
+class CSV_FH_import(bpy.types.FileHandler):
+    bl_idname = "CSV_FH_import"
+    bl_label = "File handler for CSV import"
+    bl_import_operator = "import_scene.import_csv_polars"
+    bl_file_extensions = ".csv"
+
+    @classmethod
+    def poll_drop(cls, context):
+        # Allow drag-and-drop in the 3D View
+        return (context.area and context.area.type == 'VIEW_3D')
+
 # Register the operator and menu entry
 def menu_func_import(self, context):
     self.layout.operator(ImportCsvPolarsOperator.bl_idname, text="CSV 🐻 (.csv)")
 
-# Register the operator and the menu
 def register():
     bpy.utils.register_class(ImportCsvPolarsOperator)
+    bpy.utils.register_class(CSV_FH_import)
     bpy.types.TOPBAR_MT_file_import.append(menu_func_import)
 
-# Unregister the operator and the menu
 def unregister():
     bpy.types.TOPBAR_MT_file_import.remove(menu_func_import)
+    bpy.utils.unregister_class(CSV_FH_import)
     bpy.utils.unregister_class(ImportCsvPolarsOperator)
 
-# Initialize
 if __name__ == "__main__":
     register()
