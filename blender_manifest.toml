@@ -56,4 +56,5 @@ paths_exclude_pattern = [
   ".DS_Store",              # Exclude DS_Store
   "*.zip",                  # Exclude *.zip
   "*generate_data/*",       # Exclude /generate_data folder
+  "*__pycache__/",       # Exclude /__pycache__ folder
 ]
