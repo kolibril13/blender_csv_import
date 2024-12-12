@@ -39,3 +39,21 @@ wheels = [
 
 [permissions]
 files = "Importing data files from disk"
+
+# make sure only __init__.py , polars_mesh.py and wheels/ are included.
+
+[build]
+paths_exclude_pattern = [
+  "build.py",                     # Exclude build.py
+  "data_california_housing.csv",  # Exclude CSV files
+  "data_gemeran_cities.csv",      # Exclude CSV files
+  "fake_polar_ice_data.csv",      # Exclude CSV files
+  "image-1.png",            # Exclude images
+  "image.png",              # Exclude images
+  "LICENSE",                # Exclude LICENSE
+  "README.md",              # Exclude README.md
+  ".gitignore",             # Exclude gitignore
+  ".DS_Store",              # Exclude DS_Store
+  "*.zip",                  # Exclude *.zip
+  "*generate_data/*",       # Exclude /generate_data folder
+]
