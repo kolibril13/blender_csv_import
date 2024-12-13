@@ -1,7 +1,7 @@
 schema_version = "1.0.0"
 
 id = "csv_importer"
-version = "0.1.2"
+version = "0.1.3"
 name = "CSV Importer"
 tagline = "import csv data to meshes in Blender"
 maintainer = "Jan-Hendrik Müller<jan-hendrik.mueller@uni-goettingen.de>"
@@ -24,17 +24,13 @@ license = [
 copyright =[
 	"2024 Jan-Hendrik Müller",
 ]
-
-# because of this bug https://projects.blender.org/blender/blender/issues/130561 the wheels had to be renamed 
-#polars-1.17.1-cp311-abi3-macosx_11_0_arm64.whl
-#polars-1.17.1-cp39-abi3-macosx_11_0_arm64.whl
-
 wheels = [
-	"./wheels/polars-1.17.1-cp311-abi3-macosx_10_12_x86_64.whl",
-	"./wheels/polars-1.17.1-cp311-abi3-macosx_11_0_arm64.whl",
-	"./wheels/polars-1.17.1-cp311-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
-	"./wheels/polars-1.17.1-cp311-abi3-win_amd64.whl",
+	"./wheels/polars-1.17.1-cp39-abi3-macosx_10_12_x86_64.whl",
+	"./wheels/polars-1.17.1-cp39-abi3-macosx_11_0_arm64.whl",
+	"./wheels/polars-1.17.1-cp39-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+	"./wheels/polars-1.17.1-cp39-abi3-win_amd64.whl",
 ]
+
 
 
 [permissions]
