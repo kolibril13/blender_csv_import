@@ -6,15 +6,16 @@ https://extensions.blender.org/add-ons/csv-importer/
 
 A simple and fast CSV file importer.
 
-How to Use
+## How to Use
+
 Option 1: Drag and drop your CSV file directly into Blender’s viewport.
 
-Option 2: Use the menu: File → Import → CSV
+Option 2: Use the menu:
+File → Import → CSV
 
-Using the Data
-The imported data will appear in Blender’s Spreadsheet Editor.
-Use the Named Attribute in Geometry Nodes to access the imported data.
-
+### **Using the Data**  
+- The imported data will appear in Blender’s **Spreadsheet Editor**.  
+- Use the **Named Attribute** in **Geometry Nodes** to access the imported data.
 
 
 And the data will show up in the speadsheet:
