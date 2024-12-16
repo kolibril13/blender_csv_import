@@ -1,10 +1,11 @@
 # blender_csv_import
 
-https://extensions.blender.org/add-ons/csv-importer/
-
-
-
 A simple and fast CSV file importer.
+
+Download here: https://extensions.blender.org/add-ons/csv-importer/
+
+
+
 
 <img width="500" alt="thumb_almost_color" src="https://github.com/user-attachments/assets/0306c8ca-590e-4c14-9d3d-d5b579ff250b" />
 
