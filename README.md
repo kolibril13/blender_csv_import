@@ -1,14 +1,21 @@
 # blender_csv_import
-Blender extension to add CSV files
 
-
-# Usage
-
-Go to World -> "Import CSV with Polars" -> CSV Import -> Choose the file.
+https://extensions.blender.org/add-ons/csv-importer/
 
 
 
-![alt text](image.png)
+A simple and fast CSV file importer.
+
+How to Use
+Option 1: Drag and drop your CSV file directly into Blender’s viewport.
+
+Option 2: Use the menu: File → Import → CSV
+
+Using the Data
+The imported data will appear in Blender’s Spreadsheet Editor.
+Use the Named Attribute in Geometry Nodes to access the imported data.
+
+
 
 And the data will show up in the speadsheet:
 
