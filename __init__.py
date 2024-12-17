@@ -2,58 +2,61 @@ import bpy
 import polars as pl
 from bpy_extras.io_utils import ImportHelper
 from bpy.props import StringProperty
+from pathlib import Path
 from .polars_mesh import PolarsMesh
 import time
 
 # based on the blender docs: https://docs.blender.org/api/current/bpy.types.FileHandler.html#basic-filehandler-for-operator-that-imports-just-one-file
 # and tweaked with this prompt: https://chatgpt.com/share/675b0831-354c-8013-bae0-9bb91d527f32
 
+
 # Operator for the button and drag-and-drop
 class ImportCsvPolarsOperator(bpy.types.Operator, ImportHelper):
     bl_idname = "import_scene.import_csv_polars"
     bl_label = "Import CSV (Polars)"
-    bl_options = {'PRESET', 'UNDO'}
+    bl_options = {"PRESET", "UNDO"}
 
-    # ImportHelper mix-in provides 'filepath' by default, but we redefine it here 
+    # ImportHelper mix-in provides 'filepath' by default, but we redefine it here
     # to use SKIP_SAVE, allowing drag-and-drop to work properly.
-    filepath: StringProperty(
-        subtype='FILE_PATH',
-        options={'SKIP_SAVE'}
-    )
+    filepath: StringProperty(subtype="FILE_PATH", options={"SKIP_SAVE"})
 
     filename_ext = ".csv"
     filter_glob: StringProperty(
         default="*.csv",
-        options={'HIDDEN'},
+        options={"HIDDEN"},
         maxlen=255,
     )
 
     def execute(self, context):
         # Ensure the filepath is a CSV file
-        if not self.filepath.lower().endswith(".csv"):
-            self.report({'WARNING'}, "Selected file is not a CSV")
-            return {'CANCELLED'}
 
-        CSV_FILE = self.filepath  # Use the selected/dropped file path
+        if not self.filepath.lower().endswith(".csv"):
+            self.report({"WARNING"}, "Selected file is not a CSV")
+            return {"CANCELLED"}
+
+        # Use the selected/dropped file path
+        csv_file = Path(self.filepath)
+        file_name_without_ext = csv_file.stem
 
         # Read CSV with Polars
-        df_polars = pl.read_csv(CSV_FILE)
+        df_polars = pl.read_csv(csv_file)
 
-        # Measure execution time
         start_time = time.perf_counter()
-        
-        # Create a PolarsMesh object
-        blender_mesh = PolarsMesh(dataframe=df_polars, object_name="ImportedMesh")
+
+        blender_mesh = PolarsMesh(
+            dataframe=df_polars, object_name=f"CSV_{file_name_without_ext}"
+        )
 
         # Link the new mesh to the Blender scene
         bpy.context.collection.objects.link(blender_mesh.point_obj)
 
-        # Calculate elapsed time in milliseconds
         elapsed_time_ms = (time.perf_counter() - start_time) * 1000
 
-        # Report result with execution time
-        self.report({'INFO'}, f" 🐻‍❄️ 📥  Added {blender_mesh.object_name} in {elapsed_time_ms:.2f} ms")
-        return {'FINISHED'}
+        self.report(
+            {"INFO"},
+            f" 🐻‍❄️ 📥  Added {blender_mesh.object_name} in {elapsed_time_ms:.2f} ms",
+        )
+        return {"FINISHED"}
 
     def invoke(self, context, event):
         # If the filepath is already set (e.g. drag-and-drop), execute directly
@@ -61,7 +64,8 @@ class ImportCsvPolarsOperator(bpy.types.Operator, ImportHelper):
             return self.execute(context)
         # Otherwise, show the file browser
         context.window_manager.fileselect_add(self)
-        return {'RUNNING_MODAL'}
+        return {"RUNNING_MODAL"}
+
 
 # File Handler for drag-and-drop support
 class CSV_FH_import(bpy.types.FileHandler):
@@ -73,21 +77,25 @@ class CSV_FH_import(bpy.types.FileHandler):
     @classmethod
     def poll_drop(cls, context):
         # Allow drag-and-drop in the 3D View
-        return (context.area and context.area.type == 'VIEW_3D')
+        return context.area and context.area.type == "VIEW_3D"
+
 
 # Register the operator and menu entry
 def menu_func_import(self, context):
     self.layout.operator(ImportCsvPolarsOperator.bl_idname, text="CSV 🐻 (.csv)")
+
 
 def register():
     bpy.utils.register_class(ImportCsvPolarsOperator)
     bpy.utils.register_class(CSV_FH_import)
     bpy.types.TOPBAR_MT_file_import.append(menu_func_import)
 
+
 def unregister():
     bpy.types.TOPBAR_MT_file_import.remove(menu_func_import)
     bpy.utils.unregister_class(CSV_FH_import)
     bpy.utils.unregister_class(ImportCsvPolarsOperator)
+
 
 if __name__ == "__main__":
     register()
