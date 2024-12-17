@@ -4,9 +4,11 @@ A simple and fast CSV file importer.
 
 Download here: https://extensions.blender.org/add-ons/csv-importer/
 
+Walkthrough video:
 
 
-<img width="500" alt="thumb_almost_color" src="https://github.com/user-attachments/assets/0306c8ca-590e-4c14-9d3d-d5b579ff250b" />
+
+https://github.com/user-attachments/assets/1b8a26d7-ce35-4717-bf73-bc05dbf3912a
 
 
 
