@@ -6,8 +6,9 @@ Download here: https://extensions.blender.org/add-ons/csv-importer/
 
 
 
-
 <img width="500" alt="thumb_almost_color" src="https://github.com/user-attachments/assets/0306c8ca-590e-4c14-9d3d-d5b579ff250b" />
+
+
 
 
 
@@ -37,11 +38,10 @@ The corresponding Blender file can be downloaded [here](https://github.com/kolib
 
 
 
+## Support this project 
+   [![Buy Me a Coffee](https://img.shields.io/static/v1?label=&message=Buy%20Me%20a%20Coffee&color=FFDD00&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/jan_hendrik)
 
-
-
-
-# Development instructions
+## Development instructions
 
 1. Install https://github.com/JacquesLucke/blender_vscode
 2. Enable the setting "Blender › Addon: Reload On Save"
