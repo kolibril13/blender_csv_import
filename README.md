@@ -61,3 +61,30 @@ For building the app for all platforms, run
 /Applications/Blender.app/Contents/MacOS/Blender --command extension build --split-platforms
 ```
 
+
+<!-- # might be a useful import snippet
+
+import polars as pl
+import bpy
+from bl_ext.blender_org.csv_importer import PolarsMesh -->
+
+<!-- 
+and here another one
+```
+
+import polars as pl
+import bpy
+from bl_ext.blender_org.csv_importer import PolarsMesh
+
+df = pl.read_json("/Users/jan-hendrik/projects/blender_csv_import/generate_data/dino_star_vectors.json")
+# Explode the columns to transform list[list] into individual rows
+df = df.explode(["Dino", "Star"])
+
+
+
+blender_mesh = PolarsMesh(dataframe=df, object_name=f"JSON OBJ")
+
+# Link the new mesh to the Blender scene
+bpy.context.collection.objects.link(blender_mesh.point_obj)
+
+``` -->
