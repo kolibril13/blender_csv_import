@@ -1,9 +1,13 @@
 import bpy
-import polars as pl
 from bpy_extras.io_utils import ImportHelper
 from bpy.props import StringProperty
+
+import polars as pl
+import numpy as np
+import databpy as db
+
+from io import StringIO
 from pathlib import Path
-from .polars_mesh import PolarsMesh
 import time
 
 # based on the blender docs: https://docs.blender.org/api/current/bpy.types.FileHandler.html#basic-filehandler-for-operator-that-imports-just-one-file
@@ -37,24 +41,25 @@ class ImportCsvPolarsOperator(bpy.types.Operator, ImportHelper):
         # Use the selected/dropped file path
         csv_file = Path(self.filepath)
         file_name_without_ext = csv_file.stem
-
-        # Read CSV with Polars
-        df_polars = pl.read_csv(csv_file)
-
         start_time = time.perf_counter()
 
-        blender_mesh = PolarsMesh(
-            dataframe=df_polars, object_name=f"CSV_{file_name_without_ext}"
-        )
+        df = pl.read_csv(csv_file)
 
-        # Link the new mesh to the Blender scene
-        bpy.context.collection.objects.link(blender_mesh.point_obj)
+        vertices = np.zeros((len(df), 3), dtype=np.float32)
+        bob = db.create_bob(vertices, name=f"CSV_{file_name_without_ext}")
+
+        for col in df.columns:
+            col_dtype = df[col].dtype
+            if col_dtype in [pl.Utf8]:
+                continue
+            data = df[col].to_numpy()
+            bob.store_named_attribute(data, col)
 
         elapsed_time_ms = (time.perf_counter() - start_time) * 1000
 
         self.report(
             {"INFO"},
-            f" 🐻‍❄️ 📥  Added {blender_mesh.object_name} in {elapsed_time_ms:.2f} ms",
+            f" 🐻‍❄️ 📥  Added {bob.name} in {elapsed_time_ms:.2f} ms",
         )
         return {"FINISHED"}
 
