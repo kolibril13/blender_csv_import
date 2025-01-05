@@ -42,11 +42,7 @@ files = "Importing data files from disk"
 [build]
 paths_exclude_pattern = [
   "build.py",                     # Exclude build.py
-  "data_california_housing.csv",  # Exclude CSV files
-  "data_gemeran_cities.csv",      # Exclude CSV files
-  "fake_polar_ice_data.csv",      # Exclude CSV files
-  "image-1.png",            # Exclude images
-  "image.png",              # Exclude images
+  "image-1.png",            # Exclude image
   "LICENSE",                # Exclude LICENSE
   "README.md",              # Exclude README.md
   ".gitignore",             # Exclude gitignore
