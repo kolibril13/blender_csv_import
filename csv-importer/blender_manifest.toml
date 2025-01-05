@@ -33,7 +33,6 @@ wheels = [
 ]
 
 
-
 [permissions]
 files = "Importing data files from disk"
 
@@ -42,16 +41,9 @@ files = "Importing data files from disk"
 [build]
 paths_exclude_pattern = [
   "build.py",                     # Exclude build.py
-  "image-1.png",            # Exclude image
   "LICENSE",                # Exclude LICENSE
   "README.md",              # Exclude README.md
   ".gitignore",             # Exclude gitignore
-  ".DS_Store",              # Exclude DS_Store
   "*.zip",                  # Exclude *.zip
-  "*generate_data/*",       # Exclude /generate_data folder
-  "*demo_blender_files/*",  # Exclude /demo_blender_files folder
-  "*sample_datasets/*",     # Exclude /sample_datasets folder
   "*__pycache__/",       # Exclude /__pycache__ folder
-  ".venv/",                 # Exclude .venv folder
-  ".git/",                  # Exclude .git folder
 ]

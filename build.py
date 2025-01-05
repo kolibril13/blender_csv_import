@@ -1,5 +1,5 @@
 # mostly identical to from https://github.com/BradyAJohnston/MolecularNodes/blob/main/build.py
-# run with 
+# run with
 # /Applications/Blender.app/Contents/MacOS/Blender -b -P build.py
 # and later with
 # /Applications/Blender.app/Contents/MacOS/Blender --command extension build --split-platforms
@@ -35,8 +35,9 @@ except ModuleNotFoundError:
     run_python("-m pip install tomlkit")
     import tomlkit
 
-toml_path = "./blender_manifest.toml"
-whl_path = "./csv_import/wheels"
+TOML_PATH = "./csv-importer/blender_manifest.toml"
+WHL_PATH = "./csv-importer/csv_import/wheels"
+PYPROJ_PATH = "./pyproject.toml"
 
 
 @dataclass
@@ -55,11 +56,9 @@ macos_arm = Platform(pypi_suffix="macosx_12_0_arm64", metadata="macos-arm64")
 macos_intel = Platform(pypi_suffix="macosx_10_16_x86_64", metadata="macos-x64")
 
 
-required_packages = [
-    "polars==1.19.0",
-    "databpy==0.0.4"
-]
-
+with open(PYPROJ_PATH, "r") as file:
+    pyproj = tomlkit.parse(file.read())
+    required_packages = pyproj["project"]["dependencies"]
 
 build_platforms = [
     windows_x64,
@@ -70,7 +69,7 @@ build_platforms = [
 
 
 def remove_whls():
-    for whl_file in glob.glob(os.path.join(whl_path, "*.whl")):
+    for whl_file in glob.glob(os.path.join(WHL_PATH, "*.whl")):
         os.remove(whl_file)
 
 
@@ -123,7 +122,7 @@ def update_toml_whls(platforms):
         os.remove(whl)
 
     # Load the TOML file
-    with open(toml_path, "r") as file:
+    with open(TOML_PATH, "r") as file:
         manifest = tomlkit.parse(file.read())
 
     # Update the wheels list with the remaining wheel files
@@ -135,7 +134,7 @@ def update_toml_whls(platforms):
     manifest["platforms"] = [p.metadata for p in platforms]
 
     # Write the updated TOML file
-    with open(toml_path, "w") as file:
+    with open(TOML_PATH, "w") as file:
         file.write(
             tomlkit.dumps(manifest)
             .replace('["', '[\n\t"')

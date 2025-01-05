@@ -1,12 +1,7 @@
-import polars as pl
-import numpy as np
-import databpy as db
 import bpy
-
 from bpy.props import StringProperty
-
 import time
-
+from bpy_extras.io_utils import ImportHelper
 from .csv import load_csv
 
 
