@@ -56,7 +56,8 @@ macos_intel = Platform(pypi_suffix="macosx_10_16_x86_64", metadata="macos-x64")
 
 
 required_packages = [
-    "polars==1.17.1",
+    "polars==1.19.0",
+    "databpy==0.0.4"
 ]
 
 

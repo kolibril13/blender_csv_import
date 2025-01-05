@@ -61,6 +61,24 @@ For building the app for all platforms, run
 /Applications/Blender.app/Contents/MacOS/Blender --command extension build --split-platforms
 ```
 
+# Changelog:
+
+## 0.1.5
+
+* Support for drag'n'drop into other windows then viewport
+* New folder scructure
+* Only support Blender 4.3.1 and later because of this bug in earlier Blender versions: https://github.com/kolibril13/blender_csv_import/issues/1#issuecomment-2556657484
+* (Maybe refactor project structure)
+* (Maybe add tests for CSV)
+* New datawrapper using https://github.com/BradyAJohnston/databpy
+* Latest polars version https://pypi.org/project/polars/1.19.0/
+
+## 0.1.4
+
+* Rename the imported mesh from "ImportedMesh" to "CSV_filename"
+
+
+
 
 <!-- # might be a useful import snippet
 

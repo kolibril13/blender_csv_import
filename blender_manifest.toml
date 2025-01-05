@@ -1,7 +1,7 @@
 schema_version = "1.0.0"
 
 id = "csv_importer"
-version = "0.1.4"
+version = "0.1.5"
 name = "CSV Importer"
 tagline = "import csv data to meshes in Blender"
 maintainer = "Jan-Hendrik Müller<jan-hendrik.mueller@uni-goettingen.de>"
@@ -17,7 +17,7 @@ tags = [
 	"Geometry Nodes",
 	"Import-Export"
 ]
-blender_version_min = "4.2.0"
+blender_version_min = "4.3.1"
 license = [
   "SPDX:GPL-3.0-or-later"
 ]
@@ -25,10 +25,11 @@ copyright =[
 	"2024 Jan-Hendrik Müller",
 ]
 wheels = [
-	"./wheels/polars-1.17.1-cp39-abi3-macosx_10_12_x86_64.whl",
-	"./wheels/polars-1.17.1-cp39-abi3-macosx_11_0_arm64.whl",
-	"./wheels/polars-1.17.1-cp39-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
-	"./wheels/polars-1.17.1-cp39-abi3-win_amd64.whl",
+	"./wheels/databpy-0.0.4-py3-none-any.whl",
+	"./wheels/polars-1.19.0-cp39-abi3-macosx_10_12_x86_64.whl",
+	"./wheels/polars-1.19.0-cp39-abi3-macosx_11_0_arm64.whl",
+	"./wheels/polars-1.19.0-cp39-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+	"./wheels/polars-1.19.0-cp39-abi3-win_amd64.whl",
 ]
 
 
@@ -52,6 +53,8 @@ paths_exclude_pattern = [
   ".DS_Store",              # Exclude DS_Store
   "*.zip",                  # Exclude *.zip
   "*generate_data/*",       # Exclude /generate_data folder
+  "*demo_blender_files/*",  # Exclude /demo_blender_files folder
+  "*sample_datasets/*",     # Exclude /sample_datasets folder
   "*__pycache__/",       # Exclude /__pycache__ folder
   ".venv/",                 # Exclude .venv folder
   ".git/",                  # Exclude .git folder
