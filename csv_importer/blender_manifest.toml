@@ -17,7 +17,7 @@ tags = [
 	"Geometry Nodes",
 	"Import-Export"
 ]
-blender_version_min = "4.3.1"
+blender_version_min = "4.2.5"
 license = [
   "SPDX:GPL-3.0-or-later"
 ]
