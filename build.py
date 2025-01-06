@@ -1,5 +1,5 @@
 # mostly identical to from https://github.com/BradyAJohnston/MolecularNodes/blob/main/build.py
-# run with 
+# run with
 # /Applications/Blender.app/Contents/MacOS/Blender -b -P build.py
 # and later with
 # /Applications/Blender.app/Contents/MacOS/Blender --command extension build --split-platforms
@@ -35,8 +35,10 @@ except ModuleNotFoundError:
     run_python("-m pip install tomlkit")
     import tomlkit
 
-toml_path = "./blender_manifest.toml"
-whl_path = "./csv_import/wheels"
+ADDON_NAME = "csv_importer"
+TOML_PATH = f"./{ADDON_NAME}/blender_manifest.toml"
+WHL_PATH = f"./{ADDON_NAME}/wheels"
+PYPROJ_PATH = "./pyproject.toml"
 
 
 @dataclass
@@ -55,11 +57,9 @@ macos_arm = Platform(pypi_suffix="macosx_12_0_arm64", metadata="macos-arm64")
 macos_intel = Platform(pypi_suffix="macosx_10_16_x86_64", metadata="macos-x64")
 
 
-required_packages = [
-    "polars==1.19.0",
-    "databpy==0.0.4"
-]
-
+with open(PYPROJ_PATH, "r") as file:
+    pyproj = tomlkit.parse(file.read())
+    required_packages = pyproj["project"]["dependencies"]
 
 build_platforms = [
     windows_x64,
@@ -70,7 +70,7 @@ build_platforms = [
 
 
 def remove_whls():
-    for whl_file in glob.glob(os.path.join(whl_path, "*.whl")):
+    for whl_file in glob.glob(os.path.join(WHL_PATH, "*.whl")):
         os.remove(whl_file)
 
 
@@ -88,14 +88,13 @@ def download_whls(
 
     for platform in platforms:
         run_python(
-            f"-m pip download {' '.join(required_packages)} --dest ./wheels --only-binary=:all: --python-version={python_version} --platform={platform.pypi_suffix}"
+            f"-m pip download {' '.join(required_packages)} --dest {WHL_PATH} --only-binary=:all: --python-version={python_version} --platform={platform.pypi_suffix}"
         )
 
 
 def update_toml_whls(platforms):
     # Define the path for wheel files
-    wheels_dir = "wheels"
-    wheel_files = glob.glob(f"{wheels_dir}/*.whl")
+    wheel_files = glob.glob(f"{WHL_PATH}/*.whl")
     wheel_files.sort()
 
     # Packages to remove
@@ -123,7 +122,7 @@ def update_toml_whls(platforms):
         os.remove(whl)
 
     # Load the TOML file
-    with open(toml_path, "r") as file:
+    with open(TOML_PATH, "r") as file:
         manifest = tomlkit.parse(file.read())
 
     # Update the wheels list with the remaining wheel files
@@ -135,7 +134,7 @@ def update_toml_whls(platforms):
     manifest["platforms"] = [p.metadata for p in platforms]
 
     # Write the updated TOML file
-    with open(toml_path, "w") as file:
+    with open(TOML_PATH, "w") as file:
         file.write(
             tomlkit.dumps(manifest)
             .replace('["', '[\n\t"')
@@ -158,12 +157,12 @@ def build_extension(split: bool = True) -> None:
     if split:
         subprocess.run(
             f"{bpy.app.binary_path} --command extension build"
-            " --split-platforms --source-dir . --output-dir .".split(" ")
+            f" --split-platforms --source-dir {ADDON_NAME} --output-dir ".split(" ")
         )
     else:
         subprocess.run(
             f"{bpy.app.binary_path} --command extension build "
-            "--source-dir . --output-dir .".split(" ")
+            f"--source-dir {ADDON_NAME} --output-dir .".split(" ")
         )
 
 
