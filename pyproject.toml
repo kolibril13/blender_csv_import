@@ -1,5 +1,5 @@
 [project]
-name = "blender-csv-importer"
+name = "csv_importer"
 version = "0.0.1"
 description = "A CSV importer for the 3D animation software Blender"
 readme = "README.md"
