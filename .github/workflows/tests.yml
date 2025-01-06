@@ -18,16 +18,15 @@ jobs:
         steps:
             - uses: actions/checkout@v4
 
-
-            - name: Install the latest version of uv
-              uses: astral-sh/setup-uv@v4
+            - uses: BradyAJohnston/setup-blender@v2
               with:
-                version: "latest"
-            
-            - name: Install
+                version: ${{ matrix.version }}
+            - name: Run tests in Blender
               run: |
-                uv sync  --all-extras --dev
-                uv pip install bpy==${{ matrix.version }}
+                blender -b -P tests/python.py -- -m pip install uv
+                blender -b -P tests/python.py -- -m uv pip install -r pyproject.toml --all-extras
+                blender -b -P tests/python.py -- -m uv pip install -e .
+                blender -b -P tests/python.py -- -m uv run --no-project --module pytest --cov --cov-report=xml
             
             - name: Run tests
               run: |
