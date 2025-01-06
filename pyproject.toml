@@ -1,0 +1,24 @@
+[project]
+name = "csv_importer"
+version = "0.0.1"
+description = "A CSV importer for the 3D animation software Blender"
+readme = "README.md"
+dependencies = ["databpy", "polars>=0.19.0"]
+requires-python = "~=3.11.0"
+keywords = ["blender", "python", "numpy"]
+maintainers = [
+    {name="Jan-Hendrik Müller", email="jan-hendrik.mueller@uni-goettingen.de"},
+    ]
+
+[project.urls]
+# Homepage = "https://kolibril13.github.io/blender_csv_import"
+Repository = "https://github.com/kolibril13/blender_csv_import"
+# Dcumentation = "https://kolibril13.github.io/blender_csv_import"
+
+[project.optional-dependencies]
+bpy = ["bpy>=4.2"]
+test = ["pytest", "pytest-cov", "syrupy"]
+dev = ["fake-bpy-module"]
+docs = ["jupyter"]
+
+
