@@ -14,25 +14,24 @@ jobs:
             fail-fast: false
             matrix:
               version: ["4.2", "4.3"]
-              os: [macos-14]
+              os: [macos-14, windows-latest, ubuntu-latest]
         steps:
             - uses: actions/checkout@v4
 
-            - uses: BradyAJohnston/setup-blender@v2
-              with: 
-                version: ${{ matrix.version }}
 
+            - name: Install the latest version of uv
+              uses: astral-sh/setup-uv@v4
+              with:
+                version: "latest"
+            
             - name: Install
               run: |
-                blender -b -P tests/python.py -- -m pip install uv
-                blender -b -P tests/python.py -- -m uv sync --all-extras --dev
-                blender -b -P tests/python.py -- -m uv pip install bpy==${{ matrix.version }}
+                uv sync  --all-extras --dev
+                uv pip install bpy==${{ matrix.version }}
             
-            - name: Run Tests
+            - name: Run tests
               run: |
-                blender -b -P tests/python.py -- -m uv sync --all-extras --dev
-                blender -b -P tests/python.py -- -m uv run --no-project --module pytest --cov --cov-report=xml
-              
+                uv run -m pytest -vv --cov=databpy --cov-report=xml
     
             - name: Upload coverage to Codecov
               uses: codecov/codecov-action@v5
