@@ -68,22 +68,66 @@ uv sync --all-extras --dev
 uv run -m pytest
 ```
 
-# Changelog:
+# Changelog
 
-## 0.1.5
+## Version 0.1.5
 
-* Support for drag'n'drop into other windows then viewport
-* Import call via API: `bpy.ops.import_scene.import_csv_polars(filepath= ...)` 
-* Refactor project structure
-* Supported Blender versions: 
-  * 4.3.1 and greater.
-  * 4.2.5 and greater. 
-  * (earlier version of Blender had this bug https://github.com/kolibril13/blender_csv_import/issues/1#issuecomment-2556517316 but that got fixed)
-* Added Tests for the CSV importer.
-* Properly skip string data.
-* New datawrapper using https://github.com/BradyAJohnston/databpy
-* Latest polars version https://pypi.org/project/polars/1.19.0/
+### New Features
+- **Drag-and-Drop:** Added support for drag-and-drop functionality into windows other than the viewport.
+- **API Import Call:** Introduced an API for importing CSV data (note: this feature is not yet stable and may change in the future). Usage examples:
 
+```python
+from csv_importer.csv import load_csv
+from csv_importer.parsers import polars_df_to_bob
+```
+
+### Usage Examples
+
+1. **Loading CSV File:**
+   ```python
+   >>> from csv_importer.csv import load_csv
+   >>> bob = load_csv("/Users/jan-hendrik/Desktop/data_california_housing.csv")
+   >>> bob
+   bpy.data.objects['CSV_data_california_housing']
+   ```
+
+2. **Converting Polars DataFrame:**
+   ```python
+   from io import StringIO
+   import polars as pl
+   from csv_importer.parsers import polars_df_to_bob
+
+   csv_data = StringIO(
+   """FloatVal,IntVal,BoolVal,StringVal
+   1.23,10,true,Hello
+   4.56,20,false,World"""
+   )
+   df = pl.read_csv(csv_data)
+   bob = polars_df_to_bob(df, name="Test")
+   ```
+
+---
+
+### Blender Version Support
+- **Supported Versions:**
+  - Blender 4.3.1 and later.
+  - Blender 4.2.5 (requires testing, I did not try this yet).
+- **Known Issue (Resolved):**
+  - A bug in earlier Blender versions ([issue link](https://github.com/kolibril13/blender_csv_import/issues/1#issuecomment-2556517316)) has been fixed.
+
+---
+
+### Improvements
+- Properly skip string data when processing CSVs.
+- Added test coverage for the CSV importer.
+- Refactored the project structure for better organization.
+
+---
+
+### Additional Updates
+- Use a new data wrapper using [databpy](https://github.com/BradyAJohnston/databpy) by @BradyAJohnston.
+- Update to latest Polars library version: [1.19.0](https://pypi.org/project/polars/1.19.0/).
+  
 ## 0.1.4
 
 * Rename the imported mesh from "ImportedMesh" to "CSV_filename"
