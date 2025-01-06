@@ -35,8 +35,9 @@ except ModuleNotFoundError:
     run_python("-m pip install tomlkit")
     import tomlkit
 
-TOML_PATH = "./csv-importer/blender_manifest.toml"
-WHL_PATH = "./csv-importer/csv_import/wheels"
+ADDON_NAME = "csv_importer"
+TOML_PATH = f"./{ADDON_NAME}/blender_manifest.toml"
+WHL_PATH = f"./{ADDON_NAME}/wheels"
 PYPROJ_PATH = "./pyproject.toml"
 
 
@@ -87,14 +88,13 @@ def download_whls(
 
     for platform in platforms:
         run_python(
-            f"-m pip download {' '.join(required_packages)} --dest ./wheels --only-binary=:all: --python-version={python_version} --platform={platform.pypi_suffix}"
+            f"-m pip download {' '.join(required_packages)} --dest {WHL_PATH} --only-binary=:all: --python-version={python_version} --platform={platform.pypi_suffix}"
         )
 
 
 def update_toml_whls(platforms):
     # Define the path for wheel files
-    wheels_dir = "wheels"
-    wheel_files = glob.glob(f"{wheels_dir}/*.whl")
+    wheel_files = glob.glob(f"{WHL_PATH}/*.whl")
     wheel_files.sort()
 
     # Packages to remove
@@ -157,12 +157,12 @@ def build_extension(split: bool = True) -> None:
     if split:
         subprocess.run(
             f"{bpy.app.binary_path} --command extension build"
-            " --split-platforms --source-dir . --output-dir .".split(" ")
+            f" --split-platforms --source-dir {ADDON_NAME} --output-dir ".split(" ")
         )
     else:
         subprocess.run(
             f"{bpy.app.binary_path} --command extension build "
-            "--source-dir . --output-dir .".split(" ")
+            f"--source-dir {ADDON_NAME} --output-dir .".split(" ")
         )
 
 

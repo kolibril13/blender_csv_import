@@ -18,7 +18,7 @@ Repository = "https://github.com/kolibril13/blender_csv_import"
 [project.optional-dependencies]
 bpy = ["bpy>=4.2"]
 test = ["pytest", "pytest-cov", "syrupy"]
-dev = ["fake-bpy-module"]
+dev = ["fake-bpy-module", "tomlkit"]
 docs = ["jupyter"]
 
 
