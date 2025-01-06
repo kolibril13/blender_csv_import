@@ -11,7 +11,7 @@ import tempfile
 DATA_FOLDER = Path(__file__).parent / "data"
 
 
-def test_import_via_operator(snapshot):
+def test_import_via_operator():
     deno_path = str(DATA_FOLDER / "deno_star_elemens.csv")
 
     with ObjectTracker() as o:
