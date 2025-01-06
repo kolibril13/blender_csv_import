@@ -64,7 +64,7 @@ class CSV_FH_import(bpy.types.FileHandler):
     @classmethod
     def poll_drop(cls, context):
         # Allow drag-and-drop
-        return context.area and context.area.type == "VIEW_3D"
+        return context.area
 
 
 # Register the operator and menu entry
