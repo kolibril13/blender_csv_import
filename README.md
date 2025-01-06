@@ -61,6 +61,13 @@ For building the app for all platforms, run
 /Applications/Blender.app/Contents/MacOS/Blender --command extension build --split-platforms
 ```
 
+### Run tests:
+
+```
+uv sync --all-extras --dev
+uv run -m pytest
+```
+
 # Changelog:
 
 ## 0.1.5
