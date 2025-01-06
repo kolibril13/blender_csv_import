@@ -30,7 +30,7 @@ jobs:
             
             - name: Run Tests
               run: |
-                uv run -m pytest
+                uv run -m pytest -vv
               
     
             - name: Upload coverage to Codecov
