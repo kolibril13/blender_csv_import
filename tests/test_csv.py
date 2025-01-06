@@ -4,6 +4,10 @@ import bpy
 from databpy.object import ObjectTracker, BlenderObject
 import polars as pl
 import numpy as np
+import unittest
+from csv_importer.csv import load_csv
+import tempfile
+
 
 DATA_FOLDER = Path(__file__).parent / "data"
 
@@ -21,3 +25,22 @@ def test_import_via_operator(snapshot):
     # the data from the mesh is the same as that from the dataframe
     df = pl.read_csv(deno_path)
     assert np.allclose(bob.named_attribute("Dino_X"), df["Dino_X"].to_numpy())
+
+
+class TestCsvImport(unittest.TestCase):
+    def setUp(self):
+        # Create a temporary CSV file for testing
+        self.temp_dir = tempfile.mkdtemp()
+        self.test_csv = Path(self.temp_dir) / "test.csv"
+        with open(self.test_csv, "w") as f:
+            f.write("x,y,z\n1,2,3\n4,5,6\n7,8,9")
+
+    def test_load_csv(self):
+        obj = load_csv(str(self.test_csv))
+        self.assertEqual(obj.name, "CSV_test")
+        self.assertEqual(len(obj.data.vertices), 3)
+
+    def tearDown(self):
+        # Clean up temporary files
+        self.test_csv.unlink()
+        Path(self.temp_dir).rmdir()
