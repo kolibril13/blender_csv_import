@@ -273,7 +273,6 @@ docs = [
 test = [
     { name = "pytest" },
     { name = "pytest-cov" },
-    { name = "syrupy" },
 ]
 
 [package.metadata]
@@ -285,7 +284,6 @@ requires-dist = [
     { name = "polars", specifier = ">=0.19.0" },
     { name = "pytest", marker = "extra == 'test'" },
     { name = "pytest-cov", marker = "extra == 'test'" },
-    { name = "syrupy", marker = "extra == 'test'" },
     { name = "tomlkit", marker = "extra == 'dev'" },
 ]
 
@@ -1327,18 +1325,6 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/28/e3/55dcc2cfbc3ca9c29519eb6884dd1415ecb53b0e934862d3559ddcb7e20b/stack_data-0.6.3.tar.gz", hash = "sha256:836a778de4fec4dcd1dcd89ed8abff8a221f58308462e1c4aa2a3cf30148f0b9", size = 44707 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/f1/7b/ce1eafaf1a76852e2ec9b22edecf1daa58175c090266e9f6c64afcd81d91/stack_data-0.6.3-py3-none-any.whl", hash = "sha256:d5558e0c25a4cb0853cddad3d77da9891a08cb85dd9f9f91b9f8cd66e511e695", size = 24521 },
-]
-
-[[package]]
-name = "syrupy"
-version = "4.8.0"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "pytest" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/57/54/07f40c1e9355c0eb6909b83abd8ea2c523a1e05b8257a575bbaa42df28de/syrupy-4.8.0.tar.gz", hash = "sha256:648f0e9303aaa8387c8365d7314784c09a6bab0a407455c6a01d6a4f5c6a8ede", size = 49526 }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/ed/c7/8cd6b5fa8cc4a5c025d3d36a014dff44436fda8b3003a471253931c77f1b/syrupy-4.8.0-py3-none-any.whl", hash = "sha256:544f4ec6306f4b1c460fdab48fd60b2c7fe54a6c0a8243aeea15f9ad9c638c3f", size = 49530 },
 ]
 
 [[package]]

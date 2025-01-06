@@ -7,11 +7,23 @@ tagline = "import csv data to meshes in Blender"
 maintainer = "Jan-Hendrik Müller<jan-hendrik.mueller@uni-goettingen.de>"
 type = "add-on"
 website = "https://github.com/kolibril13/blender_csv_import"
-platforms = ["windows-x64", "linux-x64", "macos-arm64", "macos-x64"]
-tags = ["Geometry Nodes", "Import-Export"]
+platforms = [
+	"windows-x64",
+	"linux-x64",
+	"macos-arm64",
+	"macos-x64",
+]
+tags = [
+	"Geometry Nodes",
+	"Import-Export"
+]
 blender_version_min = "4.2.5"
-license = ["SPDX:GPL-3.0-or-later"]
-copyright = ["2024 Jan-Hendrik Müller"]
+license = [
+  "SPDX:GPL-3.0-or-later"
+]
+copyright =[
+	"2024 Jan-Hendrik Müller",
+]
 wheels = [
 	"./wheels/databpy-0.0.5-py3-none-any.whl",
 	"./wheels/polars-1.19.0-cp39-abi3-macosx_10_12_x86_64.whl",
@@ -24,9 +36,11 @@ wheels = [
 [permissions]
 files = "Importing data files from disk"
 
+# make sure only __init__.py , polars_mesh.py and wheels/ are included.
+
 [build]
 paths_exclude_pattern = [
-	".gitignore",    # Exclude gitignore
-	"*.zip",         # Exclude *.zip
-	"*__pycache__/", # Exclude /__pycache__ folder
+  ".gitignore",             # Exclude gitignore
+  "*.zip",                  # Exclude *.zip
+  "*__pycache__/",       # Exclude /__pycache__ folder
 ]
