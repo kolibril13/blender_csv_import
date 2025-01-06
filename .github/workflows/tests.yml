@@ -17,16 +17,21 @@ jobs:
               os: [macos-14]
         steps:
             - uses: actions/checkout@v4
-            - name: Install Blender
-              uses: BradyAJohnston/setup-blender@v2
+            - name: Install latest tv
+              uses: astral-sh/setup-uv@v4
               with:
-                version: ${{ matrix.version }}
-            - name: Run tests in Blender
+                version: "latest"
+            - name: Install
               run: |
-                blender -b -P tests/python.py -- -m pip install uv
-                blender -b -P tests/python.py -- -m uv pip install -r pyproject.toml --all-extras
-                blender -b -P tests/python.py -- -m uv pip install -e .
-                blender -b -P tests/python.py -- -m uv run --no-project --module pytest --cov --cov-report=xml
+                uv venv --python=3.11
+                source .venv/bin/activate
+                uv sync --all-extras --dev
+                uv pip install bpy==${{ matrix.version }}
+            
+            - name: Run Tests
+              run: |
+                uv run -m pytest
+              
     
             - name: Upload coverage to Codecov
               uses: codecov/codecov-action@v5
