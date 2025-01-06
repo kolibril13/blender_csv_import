@@ -35,7 +35,7 @@ class ImportCsvPolarsOperator(bpy.types.Operator, ImportHelper):
 
         start_time = time.perf_counter()
 
-        load_csv(filepath=self.filepath)
+        bob = load_csv(filepath=self.filepath)
 
         elapsed_time_ms = (time.perf_counter() - start_time) * 1000
 
