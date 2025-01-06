@@ -40,9 +40,6 @@ files = "Importing data files from disk"
 
 [build]
 paths_exclude_pattern = [
-  "build.py",                     # Exclude build.py
-  "LICENSE",                # Exclude LICENSE
-  "README.md",              # Exclude README.md
   ".gitignore",             # Exclude gitignore
   "*.zip",                  # Exclude *.zip
   "*__pycache__/",       # Exclude /__pycache__ folder
