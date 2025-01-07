@@ -23,10 +23,8 @@ jobs:
                 version: ${{ matrix.version }}
             - name: Run tests in Blender
               run: |
-                blender -b -P tests/python.py -- -m pip install uv
-                blender -b -P tests/python.py -- -m uv pip install -r pyproject.toml --all-extras
-                blender -b -P tests/python.py -- -m uv pip install -e .
-                blender -b -P tests/python.py -- -m uv run --no-project --module pytest --cov --cov-report=xml
+                blender -b -P tests/python.py -- -m pip install -e ".[test]"
+                blender -b -P tests/run.py -- -vv --cov --cov-report=xml
     
             - name: Upload coverage to Codecov
               uses: codecov/codecov-action@v5
