@@ -1,5 +1,7 @@
 import pytest
 import polars as pl
+import numpy as np
+from io import StringIO
 from csv_importer.parsers import polars_df_to_bob
 
 
@@ -23,9 +25,7 @@ def test_polars_df_to_bob(test_df):
     assert len(bob.vertices) == 3
 
 
-import numpy as np
-import bpy
-from io import StringIO
+
 
 
 def test_polars_df_to_bob_with_datatypes():
@@ -45,9 +45,7 @@ FloatVal,IntVal,BoolVal,StringVal
 
     # Convert DataFrame to Bob object
     bob = polars_df_to_bob(df, name="TestObject")
-    obj = bpy.data.objects["TestObject"]
 
-    print("Available attributes:", obj.data.attributes.keys())
     # Validate that the Bob object has the correct attributes
     float_val_attr = bob.named_attribute("FloatVal")
     int_val_attr = bob.named_attribute("IntVal")
