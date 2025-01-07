@@ -18,7 +18,7 @@ jobs:
         steps:
             - uses: actions/checkout@v4
 
-            - uses: BradyAJohnston/setup-blender@v2
+            - uses: BradyAJohnston/setup-blender@v2.1
               with:
                 version: ${{ matrix.version }}
             - name: Run tests in Blender
