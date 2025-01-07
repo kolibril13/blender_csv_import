@@ -9,6 +9,7 @@ keywords = ["blender", "python", "numpy"]
 maintainers = [
     {name="Jan-Hendrik Müller", email="jan-hendrik.mueller@uni-goettingen.de"},
     ]
+packages = [{include = "csv_importer"}]
 
 [project.urls]
 Homepage = "https://extensions.blender.org/add-ons/csv-importer/"
