@@ -16,6 +16,8 @@ def test_df():
 
 
 def test_polars_df_to_bob(test_df):
+    # Test if polars_df_to_bob converts a Polars DataFrame to a Bob object
+
     bob = polars_df_to_bob(test_df, name="test_object")
     assert bob.name == "test_object"
     assert len(bob.vertices) == 3
@@ -27,6 +29,9 @@ from io import StringIO
 
 
 def test_polars_df_to_bob_with_datatypes():
+    # Simulate CSV data with multiple data types: float, integer, boolean, and string
+
+
     # Info: Don't add spaces for indentation in front of the below string. It would cause this test to fail.
     csv_data = StringIO(
         """
