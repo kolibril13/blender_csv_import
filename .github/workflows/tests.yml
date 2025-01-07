@@ -21,10 +21,10 @@ jobs:
             - uses: BradyAJohnston/setup-blender@v2.1
               with:
                 version: ${{ matrix.version }}
-            - name: Run tests in Blender
-              run: |
-                blender -b -P tests/python.py -- -m pip install -e ".[test]"
-                blender -b -P tests/run.py -- -vv --cov --cov-report=xml
+            - name: Install in Blender
+              run: blender -b -P tests/python.py -- -m pip install ".[test]"
+            - name: Run Tests in Blender
+              run: blender -b -P tests/run.py -- -vv --cov --cov-report=xml
     
             - name: Upload coverage to Codecov
               uses: codecov/codecov-action@v5
