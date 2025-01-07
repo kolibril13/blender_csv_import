@@ -24,7 +24,7 @@ jobs:
             - name: Install in Blender
               run: blender -b -P tests/python.py -- -m pip install ".[test]"
             - name: Run Tests in Blender
-              run: blender -b -P tests/run.py -- -vv --cov --cov-report=xml
+              run: blender -b -P tests/run.py -- -vv tests --cov --cov-report=xml
     
             - name: Upload coverage to Codecov
               uses: codecov/codecov-action@v5
