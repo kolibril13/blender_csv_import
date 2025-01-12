@@ -38,7 +38,7 @@ class ImportCsvPolarsOperator(bpy.types.Operator, ImportHelper):
         start_time = time.perf_counter()
 
         bob = load_csv(filepath=self.filepath)
-        bob.csv.csv_filepath = self.filepath
+        bob.csv.filepath = self.filepath
 
         elapsed_time_ms = (time.perf_counter() - start_time) * 1000
 
@@ -96,7 +96,7 @@ class CSV_OP_ReloadData(bpy.types.Operator):
 def hot_reload_timer():
     # The actual hot reload logic
     for obj in bpy.data.objects:
-        path = Path(obj.csv.csv_filepath)
+        path = Path(obj.csv.filepath)
         if not obj.csv.hot_reload:
             continue
         if not path.exists():

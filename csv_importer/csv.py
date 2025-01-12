@@ -13,9 +13,9 @@ def load_csv(filepath: str) -> Object:
     df = pl.read_csv(csv_file)
     bob = polars_df_to_bob(df, name=f"CSV_{file_name_without_ext}")
     try:
-        bob.object.csv.csv_filepath = str(csv_file)
+        bob.object.csv.filepath = str(csv_file)
     except AttributeError:
         addon.register()
-        bob.object.csv.csv_filepath = str(csv_file)
+        bob.object.csv.filepath = str(csv_file)
 
     return bob.object

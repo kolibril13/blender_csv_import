@@ -13,7 +13,7 @@ class CSV_PT_ObjectPanel(bpy.types.Panel):
     @classmethod
     def poll(cls, context):
         obj = context.active_object
-        return obj is not None and obj.type == "MESH" and obj.csv.csv_filepath != ""
+        return obj is not None and obj.type == "MESH" and obj.csv.filepath != ""
 
     def draw(self, context):
         layout = self.layout
@@ -21,13 +21,13 @@ class CSV_PT_ObjectPanel(bpy.types.Panel):
         scene = context.scene
 
         row = layout.row(align=False)
-        row.prop(obj.csv, "csv_filepath", text="")
+        row.prop(obj.csv, "filepath", text="")
         row.enabled = False
         row = layout.row(align=True)
         col = row.column()
         op = col.operator("csv.reload_data")
         col.enabled = not obj.csv.hot_reload
-        op.filepath = obj.csv.csv_filepath
+        op.filepath = obj.csv.filepath
 
         # if obj.csv.hot_reload and op._timer is not None:
         if obj.csv.hot_reload:
