@@ -2,7 +2,8 @@ import bpy
 from . import ops, props, ui
 from .props import CSVImporterObjectProperties
 from bpy.props import PointerProperty
-from .ui import CSV_PT_ObjectPanel
+from .ops import ImportCsvPolarsOperator
+from .utils import add_current_module_to_path
 
 CLASSES = ops.CLASSES + props.CLASSES + ui.CLASSES
 
@@ -13,6 +14,7 @@ def menu_func_import(self, context):
 
 
 def register():
+    add_current_module_to_path()
     for cls in CLASSES:
         bpy.utils.register_class(cls)
     bpy.types.TOPBAR_MT_file_import.append(menu_func_import)
