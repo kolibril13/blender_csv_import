@@ -9,7 +9,11 @@ class CSV_PT_ObjectPanel(bpy.types.Panel):
     bl_context = "object"
     bl_order = 0
     bl_options = {"HEADER_LAYOUT_EXPAND"}
-    # bl_ui_units_x = 0
+
+    @classmethod
+    def poll(cls, context):
+        obj = context.active_object
+        return obj is not None and obj.type == "MESH" and obj.csv.csv_filepath != ""
 
     def draw(self, context):
         layout = self.layout
@@ -19,8 +23,22 @@ class CSV_PT_ObjectPanel(bpy.types.Panel):
         row = layout.row(align=False)
         row.prop(obj.csv, "csv_filepath", text="")
         row.enabled = False
-        op = layout.operator("csv.reload_data")
+        row = layout.row(align=True)
+        col = row.column()
+        op = col.operator("csv.reload_data")
+        col.enabled = not obj.csv.hot_reload
         op.filepath = obj.csv.csv_filepath
+
+        # if obj.csv.hot_reload and op._timer is not None:
+        if obj.csv.hot_reload:
+            message = "Hot Reload"
+            icon = "PAUSE"
+        else:
+            message = "Hot Reload"
+            icon = "PLAY"
+        op = row.operator(
+            "csv.toggle_hot_reload", text=message, icon=icon, depress=obj.csv.hot_reload
+        )
 
 
 CLASSES = (CSV_PT_ObjectPanel,)
