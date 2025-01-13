@@ -1,7 +1,7 @@
 schema_version = "1.0.0"
 
 id = "csv_importer"
-version = "0.1.5"
+version = "0.1.6"
 name = "CSV Importer"
 tagline = "import csv data to meshes in Blender"
 maintainer = "Jan-Hendrik Müller<jan-hendrik.mueller@uni-goettingen.de>"
@@ -25,7 +25,7 @@ copyright =[
 	"2024 Jan-Hendrik Müller",
 ]
 wheels = [
-	"./wheels/databpy-0.0.6-py3-none-any.whl",
+	"./wheels/databpy-0.0.8-py3-none-any.whl",
 	"./wheels/polars-1.19.0-cp39-abi3-macosx_10_12_x86_64.whl",
 	"./wheels/polars-1.19.0-cp39-abi3-macosx_11_0_arm64.whl",
 	"./wheels/polars-1.19.0-cp39-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
