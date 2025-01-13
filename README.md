@@ -70,6 +70,34 @@ uv run -m pytest
 
 # Changelog
 
+## Version 0.1.6
+
+* Add Reload and Hot Reload operators https://github.com/kolibril13/blender_csv_import/pull/16#issue-2782446043
+* *Screenshot*
+* Support for 3D vectors (with potential JSON support in the future). Here's a dataframe example
+```py
+import polars as pl
+import numpy as np
+df = pl.DataFrame({
+    "Star": [
+        [58.2, 91.8, 0.0],
+        [58.1, 92.2, 0.0]
+    ],
+    "Is_Visible": [True, False],
+    "Intensity": [10, 20],
+})
+
+vertices = np.zeros((len(df), 3), dtype=np.float32)
+bob = db.create_bob(vertices, name="DataWithVector")
+
+for col in df.columns:
+    data = np.vstack(df[col].to_numpy())
+    bob.store_named_attribute(data, col)
+```
+
+
+
+
 ## Version 0.1.5
 
 ### New Features
