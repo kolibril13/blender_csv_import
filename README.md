@@ -73,7 +73,10 @@ uv run -m pytest
 ## Version 0.1.6
 
 * Add Reload and Hot Reload operators https://github.com/kolibril13/blender_csv_import/pull/16#issue-2782446043
-* *Screenshot*
+
+![shape_q8JB38xjnwPqY-cLurMz- at 25-01-13 12 40 57](https://github.com/user-attachments/assets/7e14ac30-a0af-45ab-aa06-61ef8f7e0bda)
+
+
 * Support for 3D vectors (with potential JSON support in the future). Here's a dataframe example
 ```py
 import polars as pl
