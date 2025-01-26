@@ -36,7 +36,7 @@ wheels = [
 [permissions]
 files = "Importing data files from disk"
 
-# make sure only __init__.py , polars_mesh.py and wheels/ are included.
+# make sure only __init__.py and wheels/ are included.
 
 [build]
 paths_exclude_pattern = [
