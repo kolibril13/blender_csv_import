@@ -43,3 +43,17 @@ def test_load_csv(setup_csv):
     obj = load_csv(str(setup_csv))
     assert obj.name == "CSV_test"
     assert len(obj.data.vertices) == 3
+
+
+def test_csv_with_strings():
+    csv_path = DATA_FOLDER / "example_string.csv"
+    obj = load_csv(str(csv_path))
+    bob = BlenderObject(obj)
+    assert bob.name == "CSV_example_string"
+    assert len(bob) == 10
+    assert len(bob.named_attribute("City1")) == 10
+    node = bpy.data.node_groups.get("CSV_example_string: City1")
+    assert node is not None
+    assert node.interface.items_tree["City1"].in_out == "INPUT"
+    assert node.interface.items_tree["String"].in_out == "OUTPUT"
+    assert len(node.nodes["Index Switch"].inputs) == 12
