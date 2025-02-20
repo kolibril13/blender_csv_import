@@ -57,3 +57,10 @@ def test_csv_with_strings():
     assert node.interface.items_tree["City1"].in_out == "INPUT"
     assert node.interface.items_tree["String"].in_out == "OUTPUT"
     assert len(node.nodes["Index Switch"].inputs) == 12
+
+
+def test_csv_with_strings_missing():
+    csv_path = DATA_FOLDER / "missing_string.csv"
+    obj = load_csv(str(csv_path))
+    bob = BlenderObject(obj)
+    assert len(bob) == 3

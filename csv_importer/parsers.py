@@ -24,7 +24,7 @@ def update_bob_from_polars_df(bob: db.BlenderObject, df: pl.DataFrame) -> None:
     for col in df.columns:
         col_dtype = df[col].dtype
         if col_dtype in [pl.Utf8]:  # skip strings
-            data = np.vstack(df[col].to_numpy())
+            data = np.vstack(df[col].fill_null("").to_numpy())
             unique, encoding = np.unique(data, return_inverse=True)
             bob.store_named_attribute(encoding, col)
             db.nodes.custom_string_iswitch("{}: {}".format(bob.name, col), unique, col)
