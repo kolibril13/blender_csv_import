@@ -63,6 +63,13 @@ uv run -m pytest
 
 # Changelog
 
+
+## Version 0.1.7
+
+- Add support for string data
+- update to polars 1.22.0
+- update to databpy 0.0.11
+
 ## Version 0.1.6
 
 - Add Reload and Hot Reload operators https://github.com/kolibril13/blender_csv_import/pull/16#issue-2782446043
