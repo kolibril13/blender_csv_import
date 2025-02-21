@@ -1,4 +1,5 @@
 version = 1
+revision = 1
 requires-python = ">=3.11.0, <3.12"
 
 [[package]]
@@ -253,7 +254,7 @@ toml = [
 [[package]]
 name = "csv-importer"
 version = "0.0.1"
-source = { virtual = "." }
+source = { editable = "." }
 dependencies = [
     { name = "databpy" },
     { name = "polars" },
@@ -278,7 +279,7 @@ test = [
 [package.metadata]
 requires-dist = [
     { name = "bpy", marker = "extra == 'bpy'", specifier = ">=4.2" },
-    { name = "databpy" },
+    { name = "databpy", specifier = ">=0.0.11" },
     { name = "fake-bpy-module", marker = "extra == 'dev'" },
     { name = "jupyter", marker = "extra == 'docs'" },
     { name = "polars", specifier = ">=0.19.0" },
@@ -286,6 +287,7 @@ requires-dist = [
     { name = "pytest-cov", marker = "extra == 'test'" },
     { name = "tomlkit", marker = "extra == 'dev'" },
 ]
+provides-extras = ["bpy", "test", "dev", "docs"]
 
 [[package]]
 name = "cython"
@@ -306,14 +308,14 @@ wheels = [
 
 [[package]]
 name = "databpy"
-version = "0.0.5"
+version = "0.0.11"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "numpy" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/8b/81/f9adf2217bde7b7118563ecfaac204ddc40781f4bd53f130852be70f6e95/databpy-0.0.5.tar.gz", hash = "sha256:c2bacf256c4d61fae217261f24d2401fb9e8841aea257dff9705ec709b6664e0", size = 30234 }
+sdist = { url = "https://files.pythonhosted.org/packages/66/d6/2d4044f7536573d409e3288da7dff5ab492776408893cc8da634e95b1e62/databpy-0.0.11.tar.gz", hash = "sha256:793832fa4741f4d12ed8f07f14ac4ed20e18ccabed38d125fd2aadec765c0867", size = 32380 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/03/04/8594014c221696f5f03026932435ec1d545333d1c7812aa90f4159423951/databpy-0.0.5-py3-none-any.whl", hash = "sha256:4d58e9917fe0c3940828abd03199e59487471548d50ad9445316aa8b390b9554", size = 28636 },
+    { url = "https://files.pythonhosted.org/packages/f1/03/efeb867af364067c0fc75b2c0b85ff5952d73c371d90fd754e43ba937092/databpy-0.0.11-py3-none-any.whl", hash = "sha256:ab69de020738ac1961e4660280e8ed06bb4f9c58fe74917f113420b3ea2789e9", size = 29796 },
 ]
 
 [[package]]
@@ -443,7 +445,7 @@ name = "ipykernel"
 version = "6.29.5"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "appnope", marker = "platform_system == 'Darwin'" },
+    { name = "appnope", marker = "sys_platform == 'darwin'" },
     { name = "comm" },
     { name = "debugpy" },
     { name = "ipython" },

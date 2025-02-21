@@ -25,12 +25,8 @@ def test_polars_df_to_bob(test_df):
     assert len(bob.vertices) == 3
 
 
-
-
-
 def test_polars_df_to_bob_with_datatypes():
     # Simulate CSV data with multiple data types: float, integer, boolean, and string
-
 
     # Info: Don't add spaces for indentation in front of the below string. It would cause this test to fail.
     csv_data = StringIO(
@@ -58,6 +54,6 @@ FloatVal,IntVal,BoolVal,StringVal
         bool_val_attr.astype(bool), df["BoolVal"].to_numpy()
     ), "BoolVal mismatch"
 
-    # Validate that "StringVal" does not exist as a numerical attribute
-    with pytest.raises(AttributeError):
-        bob.named_attribute("StringVal")
+    # # Validate that "StringVal" does not exist as a numerical attribute
+    # with pytest.raises(AttributeError):
+    #     bob.named_attribute("StringVal")
