@@ -66,7 +66,7 @@ uv run -m pytest
 
 ## Version 0.1.7
 
-- Add support for string data
+- Add support for string columns https://github.com/kolibril13/blender_csv_import/pull/21 
 - update to polars 1.22.0
 - update to databpy 0.0.11
 
