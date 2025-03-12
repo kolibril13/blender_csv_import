@@ -2,7 +2,10 @@ import pytest
 import polars as pl
 import numpy as np
 from io import StringIO
-from csv_importer.parsers import polars_df_to_bob
+from csv_importer.parsers import polars_df_to_bob, update_bob_from_polars_df
+import unittest
+import warnings
+import string
 
 
 @pytest.fixture
@@ -57,3 +60,46 @@ FloatVal,IntVal,BoolVal,StringVal
     # # Validate that "StringVal" does not exist as a numerical attribute
     # with pytest.raises(AttributeError):
     #     bob.named_attribute("StringVal")
+
+
+def test_string_limit_functionality():
+    """Test string limit functionality without using mocks."""
+    # Create test data with specific string values and a null
+    test_strings = ["apple", None, "banana", "apple", "cherry"]
+    test_data = {
+        "strings": test_strings,
+        "numbers": np.arange(len(test_strings))
+    }
+    df = pl.DataFrame(test_data)
+    
+    # Test with normal string limit (should process all strings)
+    bob = polars_df_to_bob(df, name="TestStringLimit", string_limit=10)
+    
+    # Verify the numeric column was processed
+    numbers_attr = bob.named_attribute("numbers")
+    assert np.array_equal(numbers_attr, np.arange(len(test_strings)))
+    
+    # Verify the string column was processed and encoded correctly
+    # The encoding should map: "" (for None) -> 0, "apple" -> 1, "banana" -> 2, "cherry" -> 3
+    # So the expected encoding is [1, 0, 2, 1, 3]
+    strings_attr = bob.named_attribute("strings")
+    expected_encoding = np.array([1, 0, 2, 1, 3])
+    assert np.array_equal(strings_attr, expected_encoding)
+    
+    # Test with very low string limit (should skip string column)
+    with warnings.catch_warnings(record=True) as w:
+        warnings.simplefilter("always")
+        
+        # Create a new bob with a low string limit
+        limited_bob = polars_df_to_bob(df, name="LimitedStringTest", string_limit=2)
+        
+        # Check that a warning was raised
+        assert any("exceeds the limit" in str(warning.message) for warning in w)
+    
+    # Verify the numeric column was processed
+    numbers_attr = limited_bob.named_attribute("numbers")
+    assert np.array_equal(numbers_attr, np.arange(len(test_strings)))
+    
+    # Verify the string column was skipped (should raise an AttributeError)
+    with pytest.raises(AttributeError):
+        limited_bob.named_attribute("strings")

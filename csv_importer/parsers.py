@@ -2,6 +2,7 @@ import databpy as db
 import polars as pl
 import numpy as np
 import bpy
+import warnings
 
 
 def polars_df_to_bob(df: pl.DataFrame, name: str, string_limit: int = 3000) -> db.BlenderObject:
@@ -24,13 +25,16 @@ def update_bob_from_polars_df(bob: db.BlenderObject, df: pl.DataFrame, string_li
     for col in df.columns:
         col_dtype = df[col].dtype
         if col_dtype in [pl.Utf8]:  # handle strings
-            data = np.vstack(df[col].fill_null("").to_numpy())
+            # Convert to numpy array and fill nulls with empty string
+            data = df[col].fill_null("").to_numpy()
             unique, encoding = np.unique(data, return_inverse=True)
             # Only add strings when there are less than the string limit
             if len(unique) <= string_limit:
                 bob.store_named_attribute(encoding, col)
                 db.nodes.custom_string_iswitch("{}: {}".format(bob.name, col), unique, col)
-            # Skip if too many strings
+            else:
+                warnings.warn(f"Column '{col}' has {len(unique)} unique strings, which exceeds the limit of {string_limit}. "
+                              f"This column will be skipped. You can increase the limit with the string_limit parameter.")
         else:
             data = np.vstack(df[col].to_numpy())
             bob.store_named_attribute(data, col)
