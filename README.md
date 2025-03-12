@@ -63,6 +63,22 @@ uv run -m pytest
 
 # Changelog
 
+## Version 0.1.8
+
+- For performance, limit the number of max. strings to 3000 (this will take 7 seconds on a Mac M3). But it's still possible to import more strings with the api:
+
+```py
+import string
+import numpy as np
+import polars as pl
+from csv_importer.parsers import polars_df_to_bob
+
+n = 4000
+
+random_strings = [''.join(np.random.choice(list(string.ascii_lowercase), size=10)) for _ in range(n)]
+df = pl.DataFrame({"strings": random_strings, "numbers": np.arange(n)})
+bob = polars_df_to_bob(df, name="TestBob",string_limit =4001)
+```
 
 ## Version 0.1.7
 

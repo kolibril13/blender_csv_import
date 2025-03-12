@@ -4,20 +4,20 @@ import numpy as np
 import bpy
 
 
-def polars_df_to_bob(df: pl.DataFrame, name: str) -> db.BlenderObject:
+def polars_df_to_bob(df: pl.DataFrame, name: str, string_limit: int = 3000) -> db.BlenderObject:
     vertices = np.zeros((len(df), 3), dtype=np.float32)
     bob = db.create_bob(vertices, name=name)
 
-    update_bob_from_polars_df(bob, df)
+    update_bob_from_polars_df(bob, df, string_limit=string_limit)
     return bob
 
  
-def update_obj_from_csv(obj: bpy.types.Object, csv_file: str) -> None:
+def update_obj_from_csv(obj: bpy.types.Object, csv_file: str, string_limit: int = 3000) -> None:
     bob = db.BlenderObject(obj)
     df = pl.read_csv(csv_file)
     if len(df) != len(bob):
         bob.new_from_pydata(np.zeros((len(df), 3), dtype=np.float32))
-    update_bob_from_polars_df(bob, df)
+    update_bob_from_polars_df(bob, df, string_limit=string_limit)
 
 
 def update_bob_from_polars_df(bob: db.BlenderObject, df: pl.DataFrame, string_limit: int = 3000) -> None:
