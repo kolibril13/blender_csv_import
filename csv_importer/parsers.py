@@ -11,7 +11,7 @@ def polars_df_to_bob(df: pl.DataFrame, name: str) -> db.BlenderObject:
     update_bob_from_polars_df(bob, df)
     return bob
 
-
+ 
 def update_obj_from_csv(obj: bpy.types.Object, csv_file: str) -> None:
     bob = db.BlenderObject(obj)
     df = pl.read_csv(csv_file)
@@ -20,14 +20,17 @@ def update_obj_from_csv(obj: bpy.types.Object, csv_file: str) -> None:
     update_bob_from_polars_df(bob, df)
 
 
-def update_bob_from_polars_df(bob: db.BlenderObject, df: pl.DataFrame) -> None:
+def update_bob_from_polars_df(bob: db.BlenderObject, df: pl.DataFrame, string_limit: int = 3000) -> None:
     for col in df.columns:
         col_dtype = df[col].dtype
-        if col_dtype in [pl.Utf8]:  # skip strings
+        if col_dtype in [pl.Utf8]:  # handle strings
             data = np.vstack(df[col].fill_null("").to_numpy())
             unique, encoding = np.unique(data, return_inverse=True)
-            bob.store_named_attribute(encoding, col)
-            db.nodes.custom_string_iswitch("{}: {}".format(bob.name, col), unique, col)
+            # Only add strings when there are less than the string limit
+            if len(unique) <= string_limit:
+                bob.store_named_attribute(encoding, col)
+                db.nodes.custom_string_iswitch("{}: {}".format(bob.name, col), unique, col)
+            # Skip if too many strings
         else:
             data = np.vstack(df[col].to_numpy())
             bob.store_named_attribute(data, col)
