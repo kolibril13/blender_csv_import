@@ -33,8 +33,10 @@ def update_bob_from_polars_df(bob: db.BlenderObject, df: pl.DataFrame, string_li
                 bob.store_named_attribute(encoding, col)
                 db.nodes.custom_string_iswitch("{}: {}".format(bob.name, col), unique, col)
             else:
-                warnings.warn(f"Column '{col}' has {len(unique)} unique strings, which exceeds the limit of {string_limit}. "
-                              f"This column will be skipped. You can increase the limit with the string_limit parameter.")
+                warning_message = f"Column '{col}' has {len(unique)} unique strings, which exceeds the limit of {string_limit}. This column will be skipped. You can increase the limit with the string_limit parameter."
+                warnings.warn(warning_message)
+                self = bpy.context.window_manager
+                self.popup_menu(lambda self, context: self.layout.label(text=warning_message), title="Warning", icon='ERROR')
         else:
             data = np.vstack(df[col].to_numpy())
             bob.store_named_attribute(data, col)
