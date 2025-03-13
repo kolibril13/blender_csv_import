@@ -2,32 +2,41 @@ import databpy as db
 import polars as pl
 import numpy as np
 import bpy
+import warnings
 
 
-def polars_df_to_bob(df: pl.DataFrame, name: str) -> db.BlenderObject:
+def polars_df_to_bob(df: pl.DataFrame, name: str, string_limit: int = 3000) -> db.BlenderObject:
     vertices = np.zeros((len(df), 3), dtype=np.float32)
     bob = db.create_bob(vertices, name=name)
 
-    update_bob_from_polars_df(bob, df)
+    update_bob_from_polars_df(bob, df, string_limit=string_limit)
     return bob
 
-
-def update_obj_from_csv(obj: bpy.types.Object, csv_file: str) -> None:
+ 
+def update_obj_from_csv(obj: bpy.types.Object, csv_file: str, string_limit: int = 3000) -> None:
     bob = db.BlenderObject(obj)
     df = pl.read_csv(csv_file)
     if len(df) != len(bob):
         bob.new_from_pydata(np.zeros((len(df), 3), dtype=np.float32))
-    update_bob_from_polars_df(bob, df)
+    update_bob_from_polars_df(bob, df, string_limit=string_limit)
 
 
-def update_bob_from_polars_df(bob: db.BlenderObject, df: pl.DataFrame) -> None:
+def update_bob_from_polars_df(bob: db.BlenderObject, df: pl.DataFrame, string_limit: int = 3000) -> None:
     for col in df.columns:
         col_dtype = df[col].dtype
-        if col_dtype in [pl.Utf8]:  # skip strings
-            data = np.vstack(df[col].fill_null("").to_numpy())
+        if col_dtype in [pl.Utf8]:  # handle strings
+            # Convert to numpy array and fill nulls with empty string
+            data = df[col].fill_null("").to_numpy()
             unique, encoding = np.unique(data, return_inverse=True)
-            bob.store_named_attribute(encoding, col)
-            db.nodes.custom_string_iswitch("{}: {}".format(bob.name, col), unique, col)
+            # Only add strings when there are less than the string limit
+            if len(unique) <= string_limit:
+                bob.store_named_attribute(encoding, col)
+                db.nodes.custom_string_iswitch("{}: {}".format(bob.name, col), unique, col)
+            else:
+                warning_message = f"Column '{col}' has {len(unique)} unique strings, which exceeds the limit of {string_limit}. This column will be skipped. You can increase the limit with the string_limit parameter."
+                warnings.warn(warning_message)
+                self = bpy.context.window_manager
+                self.popup_menu(lambda self, context: self.layout.label(text=warning_message), title="Warning", icon='ERROR')
         else:
             data = np.vstack(df[col].to_numpy())
             bob.store_named_attribute(data, col)

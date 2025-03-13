@@ -63,6 +63,23 @@ uv run -m pytest
 
 # Changelog
 
+## Version 0.1.8
+
+- For performance reasons, the number of unique strings is limited to 3000 by default (processing this many strings takes about 7 seconds on a Mac M3)
+- Note: This limit applies to the number of unique strings, not the total count. For example, a CSV with 100,000 strings but only 100 unique values won't be affected by the limit.
+- You can override this limit when using the API directly:
+```py
+import string
+import numpy as np
+import polars as pl
+from csv_importer.parsers import polars_df_to_bob
+
+n = 4000
+
+random_strings = [''.join(np.random.choice(list(string.ascii_lowercase), size=10)) for _ in range(n)]
+df = pl.DataFrame({"strings": random_strings, "numbers": np.arange(n)})
+bob = polars_df_to_bob(df, name="TestBob",string_limit =4001)
+```
 
 ## Version 0.1.7
 
