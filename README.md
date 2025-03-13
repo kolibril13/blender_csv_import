@@ -10,14 +10,14 @@ https://github.com/user-attachments/assets/1b8a26d7-ce35-4717-bf73-bc05dbf3912a
 
 ## How to Use
 
-Option 1: Drag and drop your CSV file directly into Blender’s viewport.
+Option 1: Drag and drop your CSV file directly into Blender's viewport.
 
 Option 2: Use the menu:
 File → Import → CSV
 
 ### **Using the Data**
 
-- The imported data will appear in Blender’s **Spreadsheet Editor**.
+- The imported data will appear in Blender's **Spreadsheet Editor**.
 - Use the **Named Attribute** in **Geometry Nodes** to access the imported data.
 
 And the data will show up in the speadsheet:
@@ -64,6 +64,9 @@ uv run -m pytest
 # Changelog
 
 ## Version 0.1.8
+
+- Improved default data visualization by distributing points randomly in 3D space (values between 0-1 on each axis) instead of stacking all points at the origin
+![image](https://github.com/user-attachments/assets/0827092c-3bf5-41fa-aeff-f8efb29877df)
 
 - For performance reasons, the number of unique strings is limited to 3000 by default (processing this many strings takes about 7 seconds on a Mac M3)
 - Note: This limit applies to the number of unique strings, not the total count. For example, a CSV with 100,000 strings but only 100 unique values won't be affected by the limit.
