@@ -65,6 +65,7 @@ uv run -m pytest
 
 ## Version 0.1.8
 
+- Import the dataset to random positions between 0 and 1.
 - For performance reasons, the number of unique strings is limited to 3000 by default (processing this many strings takes about 7 seconds on a Mac M3)
 - Note: This limit applies to the number of unique strings, not the total count. For example, a CSV with 100,000 strings but only 100 unique values won't be affected by the limit.
 - You can override this limit when using the API directly:
