@@ -63,6 +63,13 @@ uv run -m pytest
 
 # Changelog
 
+
+
+## Verison 0.1.9
+
+- Revert distributing points randomly in 3D space. This introduced extra data that causes confusion, so now it's back to stacking all points to the origin.
+- Update to Python Polars 1.29.0 https://github.com/pola-rs/polars
+
 ## Version 0.1.8
 
 - Improved default data visualization by distributing points randomly in 3D space (values between 0-1 on each axis) instead of stacking all points at the origin

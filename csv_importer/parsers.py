@@ -6,7 +6,7 @@ import warnings
 
 
 def polars_df_to_bob(df: pl.DataFrame, name: str, string_limit: int = 3000) -> db.BlenderObject:
-    vertices = np.random.random((len(df), 3)).astype(np.float32)
+    vertices = np.zeros((len(df), 3), dtype=np.float32)
     bob = db.create_bob(vertices, name=name)
 
     update_bob_from_polars_df(bob, df, string_limit=string_limit)
@@ -17,7 +17,7 @@ def update_obj_from_csv(obj: bpy.types.Object, csv_file: str, string_limit: int 
     bob = db.BlenderObject(obj)
     df = pl.read_csv(csv_file)
     if len(df) != len(bob):
-        bob.new_from_pydata(np.random.random((len(df), 3)).astype(np.float32))
+        bob.new_from_pydata(np.zeros((len(df), 3), dtype=np.float32))
     update_bob_from_polars_df(bob, df, string_limit=string_limit)
 
 
