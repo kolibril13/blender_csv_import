@@ -69,6 +69,7 @@ uv run -m pytest
 
 - Revert distributing points randomly in 3D space. This introduced extra data that causes confusion, so now it's back to stacking all points to the origin.
 - Update to Python Polars 1.29.0 https://github.com/pola-rs/polars
+- Update to databpy 0.0.18
 
 ## Version 0.1.8
 
