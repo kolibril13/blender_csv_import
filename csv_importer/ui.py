@@ -54,6 +54,10 @@ class CSV_PT_ExportPanel(bpy.types.Panel):
         layout = self.layout
         scene = context.scene
 
+        # Object selector
+        row = layout.row()
+        row.prop(scene.csv_export, "export_object", text="Object")
+        
         # Export path field
         row = layout.row()
         row.prop(scene.csv_export, "export_path", text="Export Path")

@@ -1,5 +1,6 @@
 from bpy.types import PropertyGroup
-from bpy.props import StringProperty, IntProperty, BoolProperty
+from bpy.props import StringProperty, IntProperty, BoolProperty, PointerProperty
+import bpy
 
 
 class CSVImporterObjectProperties(PropertyGroup):
@@ -29,6 +30,13 @@ class CSVExporterSceneProperties(PropertyGroup):
         description="Path where the CSV file will be exported",
         subtype="FILE_PATH",
         default="//exported_data.csv",
+    )
+    
+    export_object: PointerProperty(  # type: ignore
+        name="Export Object",
+        description="Object to export data from",
+        type=bpy.types.Object,
+        poll=lambda self, obj: obj.type == 'MESH',
     )
 
 

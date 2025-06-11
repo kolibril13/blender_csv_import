@@ -143,6 +143,15 @@ class CSV_OT_ExportData(bpy.types.Operator):
     def execute(self, context):
         scene = context.scene
         export_path = bpy.path.abspath(scene.csv_export.export_path)
+        export_object = scene.csv_export.export_object
+        
+        # Check if an object is selected
+        if export_object is None:
+            self.report({"WARNING"}, "No object selected for export")
+            return {"CANCELLED"}
+        
+        # Print the object name
+        print(f"Exporting data from object: {export_object.name}")
         
         # Create directory if it doesn't exist
         directory = os.path.dirname(export_path)
@@ -160,7 +169,7 @@ class CSV_OT_ExportData(bpy.types.Operator):
                 # Write a basic header row
                 writer.writerow(['x', 'y', 'z'])
             
-            self.report({"INFO"}, f"Empty CSV file created at: {export_path}")
+            self.report({"INFO"}, f"Empty CSV file created at: {export_path} for object: {export_object.name}")
             return {"FINISHED"}
             
         except Exception as e:
