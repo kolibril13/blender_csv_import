@@ -5,6 +5,8 @@ from bpy_extras.io_utils import ImportHelper
 from .csv import load_csv
 from .parsers import update_obj_from_csv
 from pathlib import Path
+import csv
+import os
 
 
 # based on the blender docs: https://docs.blender.org/api/current/bpy.types.FileHandler.html#basic-filehandler-for-operator-that-imports-just-one-file
@@ -132,9 +134,44 @@ class CSV_OT_ToggleHotReload(bpy.types.Operator):
         return {"FINISHED"}
 
 
+class CSV_OT_ExportData(bpy.types.Operator):
+    bl_idname = "csv.export_data"
+    bl_label = "Export CSV"
+    bl_options = {"REGISTER", "UNDO"}
+    bl_description = "Export an empty CSV file at the specified path"
+
+    def execute(self, context):
+        scene = context.scene
+        export_path = bpy.path.abspath(scene.csv_export.export_path)
+        
+        # Create directory if it doesn't exist
+        directory = os.path.dirname(export_path)
+        if directory and not os.path.exists(directory):
+            try:
+                os.makedirs(directory)
+            except OSError as e:
+                self.report({"ERROR"}, f"Failed to create directory: {e}")
+                return {"CANCELLED"}
+        
+        try:
+            # Create an empty CSV file with basic header
+            with open(export_path, 'w', newline='', encoding='utf-8') as csvfile:
+                writer = csv.writer(csvfile)
+                # Write a basic header row
+                writer.writerow(['x', 'y', 'z'])
+            
+            self.report({"INFO"}, f"Empty CSV file created at: {export_path}")
+            return {"FINISHED"}
+            
+        except Exception as e:
+            self.report({"ERROR"}, f"Failed to create CSV file: {e}")
+            return {"CANCELLED"}
+
+
 CLASSES = (
     ImportCsvPolarsOperator,
     CSV_FH_import,
     CSV_OP_ReloadData,
     CSV_OT_ToggleHotReload,
+    CSV_OT_ExportData,
 )

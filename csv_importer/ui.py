@@ -41,4 +41,26 @@ class CSV_PT_ObjectPanel(bpy.types.Panel):
         )
 
 
-CLASSES = (CSV_PT_ObjectPanel,)
+class CSV_PT_ExportPanel(bpy.types.Panel):
+    bl_label = "Export"
+    bl_idname = "CSV_PT_ExportPanel"
+    bl_space_type = "PROPERTIES"
+    bl_region_type = "WINDOW"
+    bl_context = "scene"
+    bl_order = 0
+    bl_options = {"HEADER_LAYOUT_EXPAND"}
+
+    def draw(self, context):
+        layout = self.layout
+        scene = context.scene
+
+        # Export path field
+        row = layout.row()
+        row.prop(scene.csv_export, "export_path", text="Export Path")
+        
+        # Export button
+        row = layout.row()
+        row.operator("csv.export_data", text="Export CSV", icon="EXPORT")
+
+
+CLASSES = (CSV_PT_ObjectPanel, CSV_PT_ExportPanel)

@@ -1,6 +1,6 @@
 import bpy
 from . import ops, props, ui
-from .props import CSVImporterObjectProperties
+from .props import CSVImporterObjectProperties, CSVExporterSceneProperties
 from bpy.props import PointerProperty
 from .ops import ImportCsvPolarsOperator
 from .utils import add_current_module_to_path
@@ -19,6 +19,7 @@ def register():
         bpy.utils.register_class(cls)
     bpy.types.TOPBAR_MT_file_import.append(menu_func_import)
     bpy.types.Object.csv = PointerProperty(type=CSVImporterObjectProperties)  # type: ignore
+    bpy.types.Scene.csv_export = PointerProperty(type=CSVExporterSceneProperties)  # type: ignore
 
 
 def unregister():
@@ -26,3 +27,4 @@ def unregister():
     for cls in reversed(CLASSES):
         bpy.utils.unregister_class(cls)
     del bpy.types.Object.csv  # type: ignore
+    del bpy.types.Scene.csv_export  # type: ignore

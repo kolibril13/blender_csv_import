@@ -23,4 +23,13 @@ class CSVImporterObjectProperties(PropertyGroup):
     )
 
 
-CLASSES = (CSVImporterObjectProperties,)
+class CSVExporterSceneProperties(PropertyGroup):
+    export_path: StringProperty(  # type: ignore
+        name="Export Path",
+        description="Path where the CSV file will be exported",
+        subtype="FILE_PATH",
+        default="//exported_data.csv",
+    )
+
+
+CLASSES = (CSVImporterObjectProperties, CSVExporterSceneProperties)
