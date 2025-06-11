@@ -132,9 +132,22 @@ class CSV_OT_ToggleHotReload(bpy.types.Operator):
         return {"FINISHED"}
 
 
+class CSV_OT_ExportData(bpy.types.Operator):
+    bl_idname = "csv.export_data"
+    bl_label = "Export CSV"
+    bl_options = {"REGISTER", "UNDO"}
+    bl_description = "Export data to CSV format"
+
+    def execute(self, context):
+        print("Hello world")
+        self.report({"INFO"}, "Hello world")
+        return {"FINISHED"}
+
+
 CLASSES = (
     ImportCsvPolarsOperator,
     CSV_FH_import,
     CSV_OP_ReloadData,
     CSV_OT_ToggleHotReload,
+    CSV_OT_ExportData,
 )
