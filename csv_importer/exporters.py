@@ -72,3 +72,6 @@ def from_polars_df_to_csv(df: pl.DataFrame, export_path: str) -> None:
 
     # Write processed DataFrame to CSV file
     expanded_df.write_csv(export_path) 
+
+
+

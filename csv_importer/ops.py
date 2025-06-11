@@ -134,12 +134,22 @@ class CSV_OT_ToggleHotReload(bpy.types.Operator):
             self.report({"INFO"}, "Hot reload started")
         return {"FINISHED"}
 
-
 class CSV_OT_ExportData(bpy.types.Operator):
     bl_idname = "csv.export_data"
-    bl_label = "Export CSV"
+    bl_label = "Export Data"
     bl_options = {"REGISTER", "UNDO"}
-    bl_description = "Export mesh attribute data to CSV file"
+    bl_description = "Export mesh attribute data to file"
+
+    export_type: bpy.props.EnumProperty(  # type: ignore
+        name="Export Type",
+        description="Type of file to export",
+        items=[
+            ('CSV', "CSV", "Export as CSV"),
+            ('JSON', "JSON", "Export as JSON"), 
+            ('PARQUET', "Parquet", "Export as Parquet")
+        ],
+        default='CSV'
+    )
 
     def execute(self, context):
         scene = context.scene
@@ -167,14 +177,19 @@ class CSV_OT_ExportData(bpy.types.Operator):
             # Convert Blender object to Polars DataFrame
             df = from_blender_to_polars_df(export_object)
             
-            # Export DataFrame to CSV
-            from_polars_df_to_csv(df, export_path)
+            # Export DataFrame based on selected type
+            if self.export_type == 'CSV':
+                from_polars_df_to_csv(df, export_path)
+            elif self.export_type == 'JSON':
+                df.write_json(export_path)
+            else:  # PARQUET
+                df.write_parquet(export_path)
             
-            self.report({"INFO"}, f"CSV file exported to: {export_path} for object: {export_object.name} ({len(df)} rows, {len(df.columns)} columns)")
+            self.report({"INFO"}, f"{self.export_type} file exported to: {export_path} for object: {export_object.name} ({len(df)} rows, {len(df.columns)} columns)")
             return {"FINISHED"}
             
         except Exception as e:
-            self.report({"ERROR"}, f"Failed to export CSV file: {e}")
+            self.report({"ERROR"}, f"Failed to export {self.export_type} file: {e}")
             return {"CANCELLED"}
 
 

@@ -1,7 +1,7 @@
 import bpy
 from . import ops, props, ui
 from .props import CSVImporterObjectProperties, CSVExporterSceneProperties
-from bpy.props import PointerProperty
+from bpy.props import PointerProperty, EnumProperty
 from .ops import ImportCsvPolarsOperator
 from .utils import add_current_module_to_path
 
@@ -20,6 +20,18 @@ def register():
     bpy.types.TOPBAR_MT_file_import.append(menu_func_import)
     bpy.types.Object.csv = PointerProperty(type=CSVImporterObjectProperties)  # type: ignore
     bpy.types.Scene.csv_export = PointerProperty(type=CSVExporterSceneProperties)  # type: ignore
+    
+    # Add export type property to window manager for UI
+    bpy.types.WindowManager.csv_export_type = EnumProperty(  # type: ignore
+        name="Export Type",
+        description="Type of file to export",
+        items=[
+            ('CSV', "CSV", "Export as CSV"),
+            ('JSON', "JSON", "Export as JSON"), 
+            ('PARQUET', "Parquet", "Export as Parquet")
+        ],
+        default='CSV'
+    )
 
 
 def unregister():
@@ -28,3 +40,4 @@ def unregister():
         bpy.utils.unregister_class(cls)
     del bpy.types.Object.csv  # type: ignore
     del bpy.types.Scene.csv_export  # type: ignore
+    del bpy.types.WindowManager.csv_export_type  # type: ignore

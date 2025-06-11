@@ -40,7 +40,6 @@ class CSV_PT_ObjectPanel(bpy.types.Panel):
             "csv.toggle_hot_reload", text=message, icon=icon, depress=obj.csv.hot_reload
         )
 
-
 class CSV_PT_ExportPanel(bpy.types.Panel):
     bl_label = "Export"
     bl_idname = "CSV_PT_ExportPanel"
@@ -62,9 +61,14 @@ class CSV_PT_ExportPanel(bpy.types.Panel):
         row = layout.row()
         row.prop(scene.csv_export, "export_path", text="Export Path")
         
-        # Export button
-        row = layout.row()
-        row.operator("csv.export_data", text="Export CSV", icon="EXPORT")
+        # Export format buttons
+        row = layout.row(align=True)
+        op = row.operator("csv.export_data", text="CSV", icon="FILE")
+        op.export_type = 'CSV'
+        op = row.operator("csv.export_data", text="JSON", icon="FILE")
+        op.export_type = 'JSON'
+        op = row.operator("csv.export_data", text="Parquet", icon="FILE") 
+        op.export_type = 'PARQUET'
 
 
 CLASSES = (CSV_PT_ObjectPanel, CSV_PT_ExportPanel)
