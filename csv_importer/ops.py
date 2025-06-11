@@ -138,7 +138,7 @@ class CSV_OT_ExportData(bpy.types.Operator):
     bl_idname = "csv.export_data"
     bl_label = "Export CSV"
     bl_options = {"REGISTER", "UNDO"}
-    bl_description = "Export an empty CSV file at the specified path"
+    bl_description = "Export mesh attribute data to CSV file"
 
     def execute(self, context):
         scene = context.scene
@@ -163,17 +163,64 @@ class CSV_OT_ExportData(bpy.types.Operator):
                 return {"CANCELLED"}
         
         try:
-            # Create an empty CSV file with basic header
-            with open(export_path, 'w', newline='', encoding='utf-8') as csvfile:
-                writer = csv.writer(csvfile)
-                # Write a basic header row
-                writer.writerow(['x', 'y', 'z'])
+            import databpy as db
+            import polars as pl
             
-            self.report({"INFO"}, f"Empty CSV file created at: {export_path} for object: {export_object.name}")
+            # Evaluate the object and get mesh data
+            evaluated_obj = db.evaluate_object(export_object)
+            mesh = evaluated_obj.to_mesh()
+
+            # Collect all attribute data
+            attribute_data = {}
+            for attr in mesh.attributes:
+                if attr.name not in {'sharp_face', 'UVMap'} and not attr.name.startswith('.'):
+                    a = db.named_attribute(evaluated_obj, attr.name)
+                    attribute_data[attr.name] = a
+
+            # Create polars DataFrame
+            df = pl.DataFrame(attribute_data)
+
+            # Sort columns so "position" is first
+            if "position" in df.columns:
+                column_order = ["position"] + [col for col in df.columns if col != "position"]
+                df = df.select(column_order)
+
+            # Check dtypes and expand array columns
+            dtypes = df.dtypes
+            array_columns = []
+            expanded_df = df.clone()
+
+            for i, dtype in enumerate(dtypes):
+                col_name = df.columns[i]
+                if str(dtype).startswith('Array'):
+                    array_columns.append(col_name)
+                    
+                    # Get the array length from the first non-null value
+                    first_array = expanded_df.select(pl.col(col_name)).item(0, 0)
+                    array_length = len(first_array)
+                    
+                    # Expand array into separate columns with indexed names
+                    for j in range(array_length):
+                        expanded_df = expanded_df.with_columns([
+                            pl.col(col_name).arr.get(j).alias(f"{col_name}{j+1}")
+                        ])
+                    # Drop the original array column
+                    expanded_df = expanded_df.drop(col_name)
+
+            # Reorder columns to place position columns first
+            position_columns = [col for col in expanded_df.columns if col.startswith('position')]
+            other_columns = [col for col in expanded_df.columns if not col.startswith('position')]
+            column_order = position_columns + other_columns
+            expanded_df = expanded_df.select(column_order)
+
+            # Write to CSV file
+            expanded_df.write_csv(export_path)
+            
+            self.report({"INFO"}, f"CSV file exported to: {export_path} for object: {export_object.name} ({len(expanded_df)} rows, {len(expanded_df.columns)} columns)")
             return {"FINISHED"}
             
         except Exception as e:
-            self.report({"ERROR"}, f"Failed to create CSV file: {e}")
+            self.report({"ERROR"}, f"Failed to export CSV file: {e}")
             return {"CANCELLED"}
 
 
