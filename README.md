@@ -88,7 +88,8 @@ import bpy
 path = Path.home() / "Desktop/export.json"
 export_object = bpy.data.objects["Cube"]
 df = from_blender_to_polars_df(export_object)
-from_polars_df_to_json(df, path)
+df.write_json(export_path) 
+#from_polars_df_to_json(df, path)
 ```
 
 - Add JSON Export Menu
