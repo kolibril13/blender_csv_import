@@ -64,6 +64,22 @@ uv run -m pytest
 # Changelog
 
 
+## Version 0.2
+
+- Add CSV Export Menu (at `File -> Export` )
+- Add Export API for CSV:
+```py
+from csv_importer.exporters import from_blender_to_polars_df, from_polars_df_to_csv
+from pathlib import Path
+import bpy
+
+path = Path.home() / "Desktop/export.csv"
+export_object = bpy.data.objects["Cube"]
+df = from_blender_to_polars_df(export_object)
+from_polars_df_to_csv(df, path)
+``` 
+
+- Add JSON Export Menu
 
 ## Verison 0.1.9
 
