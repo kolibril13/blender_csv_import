@@ -1,11 +1,11 @@
 import bpy
 from bpy.props import StringProperty
 import time
-from bpy_extras.io_utils import ImportHelper
+from bpy_extras.io_utils import ImportHelper, ExportHelper
 from .csv import load_csv
 from .parsers import update_obj_from_csv
 from pathlib import Path
-
+from .exporters import from_blender_to_polars_df, from_polars_df_to_csv
 
 # based on the blender docs: https://docs.blender.org/api/current/bpy.types.FileHandler.html#basic-filehandler-for-operator-that-imports-just-one-file
 # and tweaked with this prompt: https://chatgpt.com/share/675b0831-354c-8013-bae0-9bb91d527f32
@@ -68,6 +68,45 @@ class CSV_FH_import(bpy.types.FileHandler):
     def poll_drop(cls, context):
         # Allow drag-and-drop
         return context.area
+
+
+class ExportCsvPolarsOperator(bpy.types.Operator, ExportHelper):
+    bl_idname = "export_scene.export_csv_polars"
+    bl_label = "Export CSV (Polars)"
+    bl_options = {"PRESET", "UNDO"}
+
+    filepath: StringProperty(subtype="FILE_PATH")  # type: ignore
+
+    filename_ext = ".csv"
+    filter_glob: StringProperty(  # type: ignore
+        default="*.csv",
+        options={"HIDDEN"},
+        maxlen=255,
+    )
+
+    def execute(self, context):
+        export_object = context.active_object
+        
+        if export_object is None:
+            self.report({"WARNING"}, "No object selected")
+            return {"CANCELLED"}
+            
+        if export_object.type != "MESH":
+            self.report({"WARNING"}, "Selected object is not a mesh")
+            return {"CANCELLED"}
+
+        start_time = time.perf_counter()
+
+        df = from_blender_to_polars_df(export_object)
+        from_polars_df_to_csv(df, self.filepath)
+
+        elapsed_time_ms = (time.perf_counter() - start_time) * 1000
+
+        self.report(
+            {"INFO"},
+            f" 🐻‍❄️ 📤  Exported {export_object.name} in {elapsed_time_ms:.2f} ms",
+        )
+        return {"FINISHED"}
 
 
 class CSV_OP_ReloadData(bpy.types.Operator):
@@ -135,6 +174,7 @@ class CSV_OT_ToggleHotReload(bpy.types.Operator):
 CLASSES = (
     ImportCsvPolarsOperator,
     CSV_FH_import,
+    ExportCsvPolarsOperator,
     CSV_OP_ReloadData,
     CSV_OT_ToggleHotReload,
 )
