@@ -2,7 +2,7 @@ import bpy
 from . import ops, props, ui
 from .props import CSVImporterObjectProperties
 from bpy.props import PointerProperty
-from .ops import ImportCsvPolarsOperator, ExportCsvPolarsOperator
+from .ops import ImportCsvPolarsOperator, ExportCsvPolarsOperator, ExportJsonPolarsOperator
 from .utils import add_current_module_to_path
 
 CLASSES = ops.CLASSES + props.CLASSES + ui.CLASSES
@@ -14,6 +14,7 @@ def menu_func_import(self, context):
 
 def menu_func_export(self, context):
     self.layout.operator(ExportCsvPolarsOperator.bl_idname, text="CSV 🐻 (.csv)")
+    self.layout.operator(ExportJsonPolarsOperator.bl_idname, text="JSON 🐻 (.json)")
 
 
 def register():
