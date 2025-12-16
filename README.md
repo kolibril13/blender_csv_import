@@ -29,9 +29,9 @@ The corresponding Blender file can be downloaded [here](https://github.com/kolib
 
 <img width="1471" alt="image" src="https://github.com/user-attachments/assets/515e7727-e995-4672-918a-1234c9fd0ad7" />
 
-## Support this project
+##  Acknowledgment
+This projected was funded by the Prototype Fund from the German Federal Ministry of Education and Research
 
-[![Buy Me a Coffee](https://img.shields.io/static/v1?label=&message=Buy%20Me%20a%20Coffee&color=FFDD00&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/jan_hendrik)
 
 ## Development instructions
 
