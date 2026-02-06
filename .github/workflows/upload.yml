@@ -29,7 +29,7 @@ jobs:
 
       - name: Upload to Extensions Platform
         env:
-          EXTENSION: molecularnodes
+          EXTENSION: csv_importer
         run: |
           for zipfile in assets/*.zip; do
             echo "Uploading $zipfile to Blender Extensions Platform"
