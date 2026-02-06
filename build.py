@@ -54,7 +54,6 @@ class Platform:
 windows_x64 = Platform(pypi_suffix="win_amd64", metadata="windows-x64")
 linux_x64 = Platform(pypi_suffix="manylinux2014_x86_64", metadata="linux-x64")
 macos_arm = Platform(pypi_suffix="macosx_12_0_arm64", metadata="macos-arm64")
-macos_intel = Platform(pypi_suffix="macosx_10_16_x86_64", metadata="macos-x64")
 
 
 with open(PYPROJ_PATH, "r") as file:
@@ -65,7 +64,6 @@ build_platforms = [
     windows_x64,
     linux_x64,
     macos_arm,
-    macos_intel,
 ]
 
 
