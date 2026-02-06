@@ -25,15 +25,4 @@ jobs:
               run: blender -b -P tests/python.py -- -m pip install ".[test]"
             - name: Run Tests in Blender
               run: blender -b -P tests/run.py -- -vv tests --cov --cov-report=xml
-    
-            - name: Upload coverage to Codecov
-              uses: codecov/codecov-action@v5
-              with:
-                token: ${{ secrets.CODECOV_TOKEN }}
-            
-            - name: Upload test results to Codecov
-              if: ${{ !cancelled() }}
-              uses: codecov/test-results-action@v1
-              with:
-                token: ${{ secrets.CODECOV_TOKEN }}
-    
+
