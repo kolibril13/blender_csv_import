@@ -30,7 +30,18 @@ The corresponding Blender file can be downloaded [here](https://github.com/kolib
 <img width="1471" alt="image" src="https://github.com/user-attachments/assets/515e7727-e995-4672-918a-1234c9fd0ad7" />
 
 ##  Acknowledgment
-This projected was funded by the Prototype Fund from the German Federal Ministry of Education and Research
+This project was funded by the Prototype Fund of the German Federal Ministry of Education and Research under the name Table@Viz.  
+During the funding period in 2025, additional development continued in related components that build on this infrastructure:
+
+- https://github.com/kolibril13/blur_hdri  
+- https://github.com/kolibril13/blender_enhanced_svg  
+- https://github.com/kolibril13/blender_typst_importer  
+- https://github.com/kolibril13/blendercon25-extension-talk  
+
+These projects are published as Blender Extensions by Jan-Hendrik Müller:
+
+- https://extensions.blender.org/author/10222
+
 
 
 ## Development instructions
