@@ -75,6 +75,10 @@ uv run -m pytest
 # Changelog
 
 
+## Version 0.2.0
+
+- Update databpy from `0.0.18` `0.6.0`
+- Update polars from `1.29.0`to `1.38.0`
 
 ## Verison 0.1.9
 
