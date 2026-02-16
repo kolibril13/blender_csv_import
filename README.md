@@ -31,17 +31,9 @@ The corresponding Blender file can be downloaded [here](https://github.com/kolib
 
 ##  Acknowledgment
 This project was funded by the Prototype Fund of the German Federal Ministry of Education and Research under the name Table@Viz.  
-During the funding period in 2025, additional development continued in related components that build on this infrastructure:
+During the funding period in 2025, additional development continued in related components that build on this infrastructure and documentation:
 
-- https://github.com/kolibril13/blur_hdri  
-- https://github.com/kolibril13/blender_enhanced_svg  
-- https://github.com/kolibril13/blender_typst_importer  
-- https://github.com/kolibril13/blendercon25-extension-talk  
-
-These projects are published as Blender Extensions by Jan-Hendrik Müller:
-
-- https://extensions.blender.org/author/10222
-
+https://kolibril13.github.io/Table-at-Viz/
 
 
 ## Development instructions
