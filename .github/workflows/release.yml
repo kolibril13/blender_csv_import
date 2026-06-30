@@ -1,9 +1,9 @@
-name: Build and Create Draft Release
+name: Build and Create Release
 
 on:
   push:
     tags:
-      - 'v*'
+      - "v*"
 
 # Cancel in-progress runs when a new workflow with the same group is triggered
 concurrency:
@@ -11,7 +11,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build-and-draft-release:
+  build-and-release:
     runs-on: macos-latest
     permissions:
       contents: write
@@ -27,8 +27,23 @@ jobs:
         run: |
           blender -b -P build.py
 
-      - name: Create Draft Release
+      - name: Create Release
         run: |
-          gh release create ${{ github.ref_name }} --draft --generate-notes *.zip
+          gh release create ${{ github.ref_name }} --generate-notes *.zip
         env:
           GITHUB_TOKEN: ${{ github.token }}
+
+      - name: Upload to Extensions Platform
+        env:
+          EXTENSION: csv_importer
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          RELEASE_URL=$(gh release view ${{ github.ref_name }} --json url -q .url)
+          echo "See release notes: ${RELEASE_URL}" > release_notes.txt
+          for zipfile in *.zip; do
+            echo "Uploading $zipfile to Blender Extensions Platform"
+            curl -X POST https://extensions.blender.org/api/v1/extensions/${EXTENSION}/versions/upload/ \
+              -H "Authorization:bearer ${{ secrets.BLENDER_EXTENSIONS_TOKEN }}" \
+              -F "version_file=@${zipfile}" \
+              -F "release_notes=<release_notes.txt"
+          done
