@@ -33,10 +33,9 @@ jobs:
       - uses: BradyAJohnston/setup-blender@v5
         with:
           version: ${{ matrix.version }}
-      - name: Build node assets
+      - name: Install dependencies
         run: |
           uv sync --all-extras
-          uv run -m nodebpy.assets build
       - name: Build extension
         run: |
           uvx extbpy build

@@ -24,10 +24,9 @@ jobs:
       - name: Install uv
         uses: astral-sh/setup-uv@v5
 
-      - name: Build node assets
+      - name: Install dependencies
         run: |
           uv sync --all-extras
-          uv run -m nodebpy.assets build
 
       - name: Build Extension
         run: |
