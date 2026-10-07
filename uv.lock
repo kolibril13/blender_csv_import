@@ -300,7 +300,7 @@ requires-dist = [
     { name = "databpy", specifier = ">=0.10.0" },
     { name = "fake-bpy-module", marker = "extra == 'dev'" },
     { name = "jupyter", marker = "extra == 'docs'" },
-    { name = "nodebpy", specifier = ">=0.5.0" },
+    { name = "nodebpy", specifier = "==520.34.0" },
     { name = "polars", specifier = ">=2.0.0" },
     { name = "pytest", marker = "extra == 'test'" },
     { name = "pytest-cov", marker = "extra == 'test'" },

@@ -7,12 +7,12 @@ from nodebpy import geometry as g
 
 
 def create_string_iswitch(name: str, values: list[str], attr_name: str = "attr_id") -> bpy.types.GeometryNodeTree:
-    with g.tree(name, collapse=True) as tree:
-        tree.color_tag = "CONVERTER"
-        idx_in = tree.inputs.integer(attr_name)
+    with g.tree(name, collapse=True) as builder:
+        builder.tree.color_tag = "CONVERTER"
+        idx_in = builder.inputs.integer(attr_name)
         iswitch = g.IndexSwitch.string(index=idx_in, items=values)
-        iswitch >> tree.outputs.string("String")
-    return bpy.data.node_groups[tree.name]
+        iswitch >> builder.outputs.string("String")
+    return builder.tree
 
 
 def polars_df_to_bob(df: pl.DataFrame, name: str, string_limit: int = 3000) -> db.BlenderObject:

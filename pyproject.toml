@@ -3,7 +3,7 @@ name = "csv_importer"
 version = "0.0.1" # project is not on PyPI, so this is just a placeholder.The real version is defined in blender_manifest.toml
 description = "A CSV importer for the 3D animation software Blender"
 readme = "README.md"
-dependencies = ["databpy>=0.6.2", "nodebpy>=0.10.0", "polars>=2.0.0"]
+dependencies = ["databpy>=0.10.0", "nodebpy==520.34.0", "polars>=2.0.0"]
 requires-python = "~=3.13.0"
 keywords = ["blender", "python", "numpy"]
 maintainers = [

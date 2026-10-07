@@ -26,7 +26,7 @@ def run_python(args: str | List[str]):
             "or a list of individual arguments already split"
         )
 
-    subprocess.run(args)
+    subprocess.run(args, check=True)
 
 
 try:
@@ -75,7 +75,7 @@ def remove_whls():
 def download_whls(
     platforms: Union[Platform, List[Platform]],
     required_packages: List[str] = required_packages,
-    python_version="3.11",
+    python_version="3.13",
     clean: bool = True,
 ):
     if isinstance(platforms, Platform):
