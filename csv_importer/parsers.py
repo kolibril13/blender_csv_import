@@ -3,6 +3,16 @@ import polars as pl
 import numpy as np
 import bpy
 import warnings
+from nodebpy import geometry as g
+
+
+def create_string_iswitch(name: str, values: list[str], attr_name: str = "attr_id") -> bpy.types.GeometryNodeTree:
+    with g.tree(name, collapse=True) as tree:
+        tree.color_tag = "CONVERTER"
+        idx_in = tree.inputs.integer(attr_name)
+        iswitch = g.IndexSwitch.string(index=idx_in, items=values)
+        iswitch >> tree.outputs.string("String")
+    return bpy.data.node_groups[tree.name]
 
 
 def polars_df_to_bob(df: pl.DataFrame, name: str, string_limit: int = 3000) -> db.BlenderObject:
@@ -31,7 +41,7 @@ def update_bob_from_polars_df(bob: db.BlenderObject, df: pl.DataFrame, string_li
             # Only add strings when there are less than the string limit
             if len(unique) <= string_limit:
                 bob.store_named_attribute(encoding, col)
-                db.nodes.custom_string_iswitch("{}: {}".format(bob.name, col), unique, col)
+                create_string_iswitch("{}: {}".format(bob.name, col), list(unique), col)
             else:
                 warning_message = f"Column '{col}' has {len(unique)} unique strings, which exceeds the limit of {string_limit}. This column will be skipped. You can increase the limit with the string_limit parameter."
                 warnings.warn(warning_message)
