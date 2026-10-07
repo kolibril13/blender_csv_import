@@ -38,7 +38,7 @@ jobs:
           uv sync --all-extras
       - name: Build extension
         run: |
-          uvx extbpy build
+          blender -b -P build.py
           mkdir artifact
           mv ${{ env.ADDON_NAME }}-${{ steps.read_manifest.outputs.value }}-*.zip ./artifact/.
       - name: Archive addon

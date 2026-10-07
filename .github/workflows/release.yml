@@ -30,7 +30,7 @@ jobs:
 
       - name: Build Extension
         run: |
-          uvx extbpy build
+          blender -b -P build.py
 
       - name: Create Release
         run: |
