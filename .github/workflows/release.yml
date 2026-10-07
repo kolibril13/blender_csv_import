@@ -41,6 +41,7 @@ jobs:
       - name: Upload to Extensions Platform
         env:
           EXTENSION: csv_importer
+          GH_TOKEN: ${{ github.token }}
         run: |
           RELEASE_URL=$(gh release view ${{ github.ref_name }} --json url -q .url)
           echo "See release notes: ${RELEASE_URL}" > release_notes.txt
