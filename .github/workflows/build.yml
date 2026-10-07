@@ -3,31 +3,43 @@ name: Build Extension
 on:
   workflow_dispatch:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:
-    runs-on: macos-14
+    runs-on: macos-latest
     strategy:
       matrix:
-        version: [4.2, 4.3]
+        version: ["5.2", "latest"]
     env:
       ADDON_NAME: csv_importer
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v5
       - uses: SebRollen/toml-action@v1.2.0
         id: read_manifest
         with:
-          file: '${{ env.ADDON_NAME }}/blender_manifest.toml'
-          field: 'version'
-      - uses: BradyAJohnston/setup-blender@v2
+          file: "${{ env.ADDON_NAME }}/blender_manifest.toml"
+          field: "version"
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+      - uses: BradyAJohnston/setup-blender@v5
         with:
           version: ${{ matrix.version }}
+      - name: Build node assets
+        run: |
+          uv sync --all-extras
+          uv run -m nodebpy.assets build
       - name: Build extension
         run: |
-          blender -b -P build.py
+          uvx extbpy build
           mkdir artifact
           mv ${{ env.ADDON_NAME }}-${{ steps.read_manifest.outputs.value }}-*.zip ./artifact/.
       - name: Archive addon

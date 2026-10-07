@@ -1,28 +1,39 @@
 name: Run Tests
 
-on: 
-    push:
-      branches: ["main"]
-    pull_request:
-      branches: ["*"]
-    
-jobs:
-    build:
-        runs-on: ${{ matrix.os }}
-        strategy:
-            max-parallel: 4
-            fail-fast: false
-            matrix:
-              version: ["4.2.5", "4.3.2", "daily"]
-              os: [macos-14, windows-latest, ubuntu-latest]
-        steps:
-            - uses: actions/checkout@v4
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["*"]
 
-            - uses: BradyAJohnston/setup-blender@v2.1
-              with:
-                version: ${{ matrix.version }}
-            - name: Install in Blender
-              run: blender -b -P tests/python.py -- -m pip install ".[test]"
-            - name: Run Tests in Blender
-              run: blender -b -P tests/run.py -- -vv tests --cov --cov-report=xml
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      max-parallel: 4
+      fail-fast: false
+      matrix:
+        version: ["5.2", "latest"]
+        os: [macos-latest, windows-latest, ubuntu-latest]
+    steps:
+      - uses: actions/checkout@v5
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+      - uses: BradyAJohnston/setup-blender@v5
+        with:
+          version: ${{ matrix.version }}
+      - name: Install test dependencies
+        shell: bash
+        run: |
+          blender -b --python-expr "import sys, subprocess; subprocess.check_call([sys.executable, '-m', 'pip', 'install', '-e', '.[test]'])"
+      - name: Run Tests in Blender
+        shell: bash
+        run: |
+          blender -b --python-expr "import sys, subprocess; subprocess.check_call([sys.executable, '-m', 'pytest', '-vv', 'tests', '--cov', '--cov-report=xml'])"
 
