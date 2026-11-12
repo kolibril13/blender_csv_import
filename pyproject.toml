@@ -3,7 +3,7 @@ name = "csv_importer"
 version = "0.0.1" # project is not on PyPI, so this is just a placeholder.The real version is defined in blender_manifest.toml
 description = "A CSV importer for the 3D animation software Blender"
 readme = "README.md"
-dependencies = ["databpy==0.10.1", "nodebpy==520.34.0", "polars>=2.0.0"]
+dependencies = ["databpy==0.10.1", "nodebpy==530.0.1", "polars>=2.0.0"]
 requires-python = "~=3.13.0"
 keywords = ["blender", "python", "numpy"]
 maintainers = [
@@ -16,7 +16,7 @@ Repository = "https://github.com/kolibril13/blender_csv_import"
 # Documentation = "https://kolibril13.github.io/blender_csv_import"
 
 [project.optional-dependencies]
-bpy = ["bpy>=4.2"]
+bpy = ["bpy>=5.3"]
 test = ["pytest", "pytest-cov"]
 dev = ["fake-bpy-module", "tomlkit"]
 docs = ["jupyter"]

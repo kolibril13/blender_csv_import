@@ -16,7 +16,7 @@ jobs:
     runs-on: macos-latest
     strategy:
       matrix:
-        version: ["5.2", "latest"]
+        version: ["5.3", "latest"]
     env:
       ADDON_NAME: csv_importer
     steps:

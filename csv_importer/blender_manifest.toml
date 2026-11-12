@@ -1,7 +1,7 @@
 schema_version = "1.0.0"
 
 id = "csv_importer"
-version = "0.2.8"
+version = "0.2.9"
 name = "CSV Importer"
 tagline = "import csv data to meshes in Blender"
 maintainer = "Jan-Hendrik Müller<jan-hendrik.mueller@uni-goettingen.de>"
@@ -16,7 +16,7 @@ tags = [
 	"Geometry Nodes",
 	"Import-Export",
 ]
-blender_version_min = "5.2.0"
+blender_version_min = "5.3.0"
 license = [
 	"SPDX:GPL-3.0-or-later",
 ]
@@ -25,11 +25,11 @@ copyright = [
 ]
 wheels = [
 	"./wheels/databpy-0.10.1-py3-none-any.whl",
-	"./wheels/nodebpy-520.34.0-py3-none-any.whl",
-	"./wheels/polars-2.0.0-py3-none-any.whl",
-	"./wheels/polars_runtime_32-2.0.0-cp310-abi3-macosx_11_0_arm64.whl",
-	"./wheels/polars_runtime_32-2.0.0-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
-	"./wheels/polars_runtime_32-2.0.0-cp310-abi3-win_amd64.whl",
+	"./wheels/nodebpy-530.0.1-py3-none-any.whl",
+	"./wheels/polars-2.1.0-py3-none-any.whl",
+	"./wheels/polars_runtime_32-2.1.0-cp311-abi3-macosx_11_0_arm64.whl",
+	"./wheels/polars_runtime_32-2.1.0-cp311-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+	"./wheels/polars_runtime_32-2.1.0-cp311-abi3-win_amd64.whl",
 ]
 
 

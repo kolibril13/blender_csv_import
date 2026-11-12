@@ -17,7 +17,7 @@ jobs:
       max-parallel: 4
       fail-fast: false
       matrix:
-        version: ["5.2", "latest"]
+        version: ["5.3", "latest"]
         os: [macos-latest, windows-latest, ubuntu-latest]
     steps:
       - uses: actions/checkout@v5
@@ -35,5 +35,5 @@ jobs:
       - name: Run Tests in Blender
         shell: bash
         run: |
-          blender -b --python-expr "import sys, subprocess; subprocess.check_call([sys.executable, '-m', 'pytest', '-vv', 'tests', '--cov', '--cov-report=xml'])"
+          blender -b -P tests/run.py -- -vv tests --cov --cov-report=xml
 

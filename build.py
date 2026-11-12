@@ -152,16 +152,16 @@ def build_extension(split: bool = True) -> None:
     for suffix in [".blend1", ".MNSession"]:
         clean_files(suffix=suffix)
 
+    command = [
+        bpy.app.binary_path,
+        "--factory-startup",
+        "--command", "extension", "build",
+        "--source-dir", ADDON_NAME,
+        "--output-dir", ".",
+    ]
     if split:
-        subprocess.run(
-            f"{bpy.app.binary_path} --command extension build"
-            f" --split-platforms --source-dir {ADDON_NAME} --output-dir ".split(" ")
-        )
-    else:
-        subprocess.run(
-            f"{bpy.app.binary_path} --command extension build "
-            f"--source-dir {ADDON_NAME} --output-dir .".split(" ")
-        )
+        command.append("--split-platforms")
+    subprocess.run(command, check=True)
 
 
 def build(platform) -> None:
