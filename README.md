@@ -2,7 +2,7 @@
 
 A simple and fast CSV file importer.
 
-Requires Blender 5.3 or newer and uses nodebpy 530.0.1.
+Requires Blender 5.3 or newer and uses nodebpy 530.0.3.
 
 Download here: https://extensions.blender.org/add-ons/csv-importer/
 
@@ -67,6 +67,10 @@ uv run -m pytest
 ```
 
 # Changelog
+
+## Version 0.2.10
+
+- Update bundled nodebpy from 530.0.1 to 530.0.3.
 
 ## Version 0.2.9
 
